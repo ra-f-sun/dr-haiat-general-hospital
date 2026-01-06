@@ -3,6 +3,8 @@ import LoginPage from './features/auth/LoginPage';
 import ProtectedRoute from './features/auth/ProtectedRoute';
 import MainLayout from './components/layout/MainLayout';
 import DashboardPage from './features/dashboard/DashboardPage';
+import PatientsPage from './features/patients/PatientsPage';
+import PatientProfilePage from './features/patients/PatientProfilePage';
 
 function App() {
   return (
@@ -19,7 +21,8 @@ function App() {
         >
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="patients" element={<div className="text-center py-12 text-gray-500">Patients page - Coming in Day 2</div>} />
+          <Route path="patients" element={<PatientsPage />} />
+          <Route path="patients/:id" element={<PatientProfilePage />} />
           <Route path="opd" element={<div className="text-center py-12 text-gray-500">OPD page - Coming in Day 3</div>} />
           <Route path="billing" element={<div className="text-center py-12 text-gray-500">Billing page - Coming in Day 4</div>} />
         </Route>

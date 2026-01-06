@@ -1,9 +1,24 @@
-import { Users, Calendar, DollarSign, FileText } from 'lucide-react';
+import { Users, Calendar, DollarSign, FileText, Download } from 'lucide-react';
 import { useDataStore } from '../../store';
 import { formatCurrency } from '../../utils';
+import { generateSamplePatients, generateSampleVisits, generateSampleBills } from '../../lib/sampleData';
 
 export default function DashboardPage() {
-  const { patients, visits, bills } = useDataStore();
+  const { patients, visits, bills, addPatient, addVisit, addBill } = useDataStore();
+
+  const loadSampleData = () => {
+    if (confirm('This will add sample data to the system. Continue?')) {
+      const samplePatients = generateSamplePatients();
+      const sampleVisits = generateSampleVisits();
+      const sampleBills = generateSampleBills();
+
+      samplePatients.forEach((patient) => addPatient(patient));
+      sampleVisits.forEach((visit) => addVisit(visit));
+      sampleBills.forEach((bill) => addBill(bill));
+
+      alert('Sample data loaded successfully!');
+    }
+  };
 
   const today = new Date().toISOString().split('T')[0];
   const todayVisits = visits.filter((v) => v.visitDate.startsWith(today));
@@ -41,9 +56,20 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500">Overview of your hospital operations</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-500">Overview of your hospital operations</p>
+        </div>
+        {patients.length === 0 && (
+          <button
+            onClick={loadSampleData}
+            className="btn-primary flex items-center"
+          >
+            <Download className="h-5 w-5 mr-2" />
+            Load Sample Data
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
