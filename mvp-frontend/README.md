@@ -1,147 +1,307 @@
-# Dr. Haiat HMS - MVP Demo
+# Dr. Haiat General Hospital - MVP Demo
 
-## 🎯 Overview
-This is a **frontend-only MVP demo** of the Hospital Management System. It uses mock data stored in browser localStorage to demonstrate the core features before the full-stack Phase 1 implementation.
+A modern Hospital Management System frontend built with React, TypeScript, and Tailwind CSS for demonstration purposes.
 
-## 🚀 Quick Start
+## 🚀 Features
 
-### Prerequisites
-- Node.js 20 LTS or higher
-- npm (comes with Node.js)
+### ✅ Authentication & Authorization
+- Mock login system for demo purposes
+- Protected routes with authentication checks
+- Session management with Zustand
 
-### Installation & Running
+### 👥 Patient Management
+- Complete patient CRUD operations
+- Patient search and filtering by name, ID, phone, or gender
+- Detailed patient profiles with medical history
+- Track patient visits and billing history
 
-```bash
-npm install
-npm run dev
+### 🏥 OPD Visit Management
+- Create and manage outpatient visits
+- Visit status tracking (Waiting → In Progress → Completed)
+- Chief complaint, diagnosis, and prescription records
+- Doctor assignment and fee management
+- Date-based filtering (Today, This Week, All Time)
+
+### 💰 Billing & Invoicing
+- Dynamic invoice creation with line items
+- Real-time calculation (subtotal, discount, tax, total)
+- Payment recording with multiple methods (Cash, Card, Mobile Banking, Bank Transfer)
+- Partial payment support
+- Status tracking (Unpaid → Partial → Paid)
+- Print-friendly invoice format
+- Revenue tracking dashboard
+
+### 📊 Dashboard
+- Real-time statistics (Total Patients, Today's Visits, Revenue, Pending Bills)
+- Quick action buttons for common tasks
+- Recent visits overview
+- Pending payments tracking
+
+## 🛠️ Tech Stack
+
+- **Framework:** React 19
+- **Language:** TypeScript 5
+- **Build Tool:** Vite 7
+- **Styling:** Tailwind CSS 3
+- **Routing:** React Router 6
+- **State Management:** Zustand 4 with localStorage persistence
+- **Form Handling:** React Hook Form 7 + Zod 3 validation
+- **Icons:** Lucide React
+- **Date Handling:** date-fns 3
+
+## 📦 Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone git@github.com:ra-f-sun/dr-haiat-general-hospital.git
+   cd dr-haiat-general-hospital/mvp-frontend
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser:**
+   Navigate to `http://localhost:5173`
+
+## 🔐 Demo Credentials
+
+```
+Username: admin
+Password: admin123
 ```
 
-The app will be available at http://localhost:5173
+> Note: This is a mock authentication system. Any username/password combination will work.
 
-### Demo Credentials
-- **Email**: Any valid email (e.g., admin@example.com)
-- **Password**: demo123
+## 📚 Usage Guide
 
-## ✨ Features Implemented (Day 1)
+### Getting Started
 
-### ✅ Completed
-- [x] Authentication system with mock login
-- [x] Protected routes
-- [x] Main layout with sidebar and header
-- [x] Dashboard with statistics
-- [x] Responsive design with Tailwind CSS
-- [x] State management with Zustand
-- [x] LocalStorage persistence
+1. **Login** with any username and password
+2. **Load Sample Data** from the dashboard (click "Load Sample Data" button)
+3. Explore the features through the sidebar navigation
 
-### 📦 Tech Stack
-- **React 19** - UI framework
-- **TypeScript 5** - Type safety
-- **Vite 7** - Build tool & dev server
-- **React Router 6** - Routing
-- **Zustand 4** - State management
-- **React Hook Form 7** - Form handling
-- **Zod 3** - Schema validation
-- **Tailwind CSS 3** - Styling
-- **Lucide React** - Icons
-- **date-fns 3** - Date utilities
+### Managing Patients
 
-## 📂 Project Structure
+- Navigate to **Patients** from the sidebar
+- Click **"+ Add Patient"** to create a new patient
+- Use the search bar to find patients by name, ID, or phone
+- Filter patients by gender (All, Male, Female)
+- Click on any patient to view their detailed profile with visit and billing history
+
+### Recording OPD Visits
+
+- Navigate to **OPD** from the sidebar
+- Click **"+ New Visit"** to create a visit
+- Select a patient from the dropdown
+- Enter chief complaint (required)
+- Add diagnosis and prescription
+- Set visit fee
+- Update visit status as patient progresses through consultation
+
+### Creating Invoices
+
+- Navigate to **Billing** from the sidebar
+- Click **"+ New Invoice"**
+- Select patient from dropdown
+- Add line items with description, quantity, and rate
+- Click "Add Item" to add more line items
+- Add discount or tax if applicable
+- Enter payment amount and select payment method
+- Balance is calculated automatically
+- Invoice status updates based on payment (Unpaid/Partial/Paid)
+
+### Recording Payments
+
+- Go to **Billing** and click on any invoice
+- Click **"Record Payment"** button in the invoice details
+- Enter payment amount and select payment method
+- Balance updates automatically
+- Status changes from Unpaid → Partial → Paid
+
+## 🎨 Features Highlights
+
+### Bangladesh Context
+- **Currency:** BDT (Bangladeshi Taka) - ৳
+- **Phone Format:** +880 1XXX-XXXXXX
+- **Sample Data:** Bangladeshi names and Dhaka addresses
+- **Hospital Type:** Gynecology-focused general hospital
+
+### Data Persistence
+- All data stored in **localStorage**
+- Data persists across browser sessions
+- Clear data by resetting browser localStorage or using browser dev tools
+
+### Responsive Design
+- Fully responsive for mobile, tablet, and desktop
+- Modern UI with cards, modals, and tables
+- Tailwind CSS utility-first styling
+- Smooth transitions and hover effects
+
+## 📁 Project Structure
 
 ```
-src/
-├── features/          # Feature-based modules
-│   ├── auth/         # Login, ProtectedRoute
-│   ├── dashboard/    # Dashboard page
-│   ├── patients/     # Patient management (Day 2)
-│   ├── opd/          # OPD visits (Day 3)
-│   └── billing/      # Billing & invoicing (Day 4)
-├── components/       # Shared components
-│   ├── layout/       # Sidebar, Header, MainLayout
-│   └── ui/           # Reusable UI components
-├── store/            # Zustand stores
-├── types/            # TypeScript type definitions
-├── utils/            # Utility functions
-├── hooks/            # Custom React hooks
-└── App.tsx           # Main app with routing
+mvp-frontend/
+├── src/
+│   ├── components/
+│   │   └── layout/              # Layout components
+│   │       ├── MainLayout.tsx   # Main layout with sidebar
+│   │       ├── Sidebar.tsx      # Navigation sidebar
+│   │       └── Header.tsx       # Top header with user info
+│   ├── features/
+│   │   ├── auth/                # Authentication
+│   │   │   ├── LoginPage.tsx    # Login form
+│   │   │   └── ProtectedRoute.tsx  # Route guard
+│   │   ├── dashboard/           # Dashboard
+│   │   │   └── DashboardPage.tsx   # Stats and quick actions
+│   │   ├── patients/            # Patient management
+│   │   │   ├── PatientsPage.tsx    # Patient list
+│   │   │   ├── AddPatientModal.tsx # Add patient form
+│   │   │   ├── EditPatientModal.tsx # Edit patient form
+│   │   │   └── PatientProfilePage.tsx # Patient details
+│   │   ├── opd/                 # OPD visit management
+│   │   │   ├── OPDPage.tsx         # Visit list
+│   │   │   ├── CreateVisitModal.tsx # New visit form
+│   │   │   └── VisitDetailsModal.tsx # Visit details/edit
+│   │   └── billing/             # Billing and invoicing
+│   │       ├── BillingPage.tsx     # Invoice list
+│   │       ├── CreateInvoiceModal.tsx # New invoice form
+│   │       └── InvoiceDetailsModal.tsx # Invoice details/payment
+│   ├── lib/
+│   │   └── sampleData.ts        # Sample data generator
+│   ├── store/
+│   │   └── index.ts             # Zustand stores (auth + data)
+│   ├── types/
+│   │   └── index.ts             # TypeScript type definitions
+│   ├── utils/
+│   │   └── index.ts             # Utility functions
+│   ├── App.tsx                  # Main app with routes
+│   ├── main.tsx                 # Entry point
+│   └── index.css                # Global styles
+├── public/                      # Static assets
+├── index.html                   # HTML template
+├── package.json                 # Dependencies
+├── tsconfig.json                # TypeScript config
+├── vite.config.ts               # Vite config
+└── tailwind.config.js           # Tailwind config
 ```
 
-## 📅 MVP Development Plan
+## 🔧 Available Scripts
 
-### Day 1: Auth + Layout ✅ COMPLETED
-- [x] Login page with form validation
-- [x] Protected routes
-- [x] Sidebar navigation
-- [x] Header with user info
-- [x] Dashboard with statistics
+- **`npm run dev`** - Start development server on http://localhost:5173
+- **`npm run build`** - Build for production (outputs to `dist/`)
+- **`npm run preview`** - Preview production build locally
+- **`npm run lint`** - Run ESLint for code quality
 
-### Day 2: Patient Management (Next)
-- [ ] Patient list with search/filter
-- [ ] Add new patient form
-- [ ] Edit patient details
-- [ ] Patient profile view
+## 🌟 Sample Data
 
-### Day 3: OPD Visits
-- [ ] Today's OPD queue
-- [ ] Create new visit
-- [ ] Visit details
-- [ ] Mark visit status
+The system includes comprehensive sample data:
+- **12 Patients** - Female patients with Bangladeshi names and addresses
+- **8 OPD Visits** - Various gynecological consultations with different statuses
+- **6 Invoices** - Mix of paid, partial, and unpaid invoices
 
-### Day 4: Billing & Invoicing
-- [ ] Create bill/invoice
-- [ ] Add line items
-- [ ] Calculate totals
-- [ ] Payment recording
+### Sample Patients Include:
+- Fatima Rahman (P-001)
+- Ayesha Begum (P-002)
+- Nusrat Jahan (P-003)
+- And 9 more...
 
-### Day 5: Polish & Demo
-- [ ] Add sample data
-- [ ] Bug fixes
-- [ ] Documentation
+## 🚧 MVP Limitations
 
-## 🚧 Limitations (MVP)
+This is a **frontend-only** MVP demo with the following limitations:
 
-This is a frontend-only demo. The following are NOT implemented:
-- ❌ Real backend API
-- ❌ Database
-- ❌ Real authentication
-- ❌ File uploads
-- ❌ Advanced reporting
+- ❌ No backend server or REST API
+- ❌ Data stored only in browser localStorage (not persistent across devices)
+- ❌ Mock authentication (no real security)
+- ❌ No real payment processing or gateway integration
+- ❌ No email/SMS notifications
+- ❌ No file uploads for medical records or documents
+- ❌ No multi-user or multi-tenant support
+- ❌ No role-based access control (RBAC)
+- ❌ No audit logs or activity tracking
+- ❌ No backup or data export functionality
 
-These will be in **Phase 1** of full-stack development.
+## 🎯 Future Enhancements (Phase 1+)
 
-## 📖 Resources
+For the full production version, planned enhancements include:
 
-- [Main Project README](../README.md)
-- [Development Guide](../DEVELOPMENT.md)
-- [Phase 1 Roadmap](../PHASE-1-ROADMAP.md)
-- [MVP Plan](../Docs/MVP-PLAN.txt)
+### Backend & Infrastructure
+- Node.js/Express backend with PostgreSQL database
+- RESTful API with proper authentication (JWT)
+- Data validation and security
+- Automated backups
+
+### Advanced Features
+- Multi-tenant support for multiple hospitals
+- Role-based access control (Admin, Doctor, Receptionist, etc.)
+- Appointment scheduling and calendar
+- Lab test integration and result management
+- Inventory and pharmacy management
+- Advanced reporting and analytics
+- Prescription printing with doctor signatures
+- Medical record attachments (PDF, images)
+
+### Notifications
+- Email notifications for appointments
+- SMS reminders for patients
+- Push notifications for doctors
+
+### Payments
+- Payment gateway integration (bKash, Nagad, card payments)
+- Automated receipts and invoices
+- Payment history and tracking
+
+### Mobile
+- Progressive Web App (PWA) support
+- Responsive mobile interface
+- Offline mode capability
+
+## 🐛 Known Issues
+
+- React Compiler warning about `watch()` function in forms (non-blocking, expected with React Hook Form)
+- VS Code may show temporary module resolution errors for newly created files (restart TypeScript server)
+
+## 📝 Development Notes
+
+### State Management
+The app uses Zustand for state management with two stores:
+- **authStore**: Manages authentication state
+- **dataStore**: Manages patients, visits, and bills with localStorage persistence
+
+### Data Persistence
+Data is automatically saved to localStorage whenever it changes. To reset:
+```javascript
+localStorage.clear();
+window.location.reload();
+```
+
+### Styling
+- Tailwind CSS with custom utility classes
+- Custom classes: `.btn-primary`, `.btn-secondary`, `.input-field`, `.card`
+- Color scheme: Primary blue, with green, orange, and purple accents
+
+## 📄 License
+
+This project is for demonstration purposes only.
+
+## 🤝 Contributing
+
+This is an MVP demo project. For the full production version or contributions, please contact the development team.
+
+## 📧 Contact & Support
+
+For questions, support, or to discuss the full Phase 1 implementation:
+- **Email:** Contact hospital IT department
+- **GitHub:** [dr-haiat-general-hospital](https://github.com/ra-f-sun/dr-haiat-general-hospital)
 
 ---
 
-**MVP Status**: Day 1 Complete ✅  
-**Started**: January 6, 2026
+**Built with ❤️ for Dr. Haiat General Hospital**
 
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*MVP Demo completed in 4 days (January 2026)*

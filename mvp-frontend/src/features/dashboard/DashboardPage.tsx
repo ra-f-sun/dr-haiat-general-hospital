@@ -1,9 +1,11 @@
-import { Users, Calendar, DollarSign, FileText, Download } from 'lucide-react';
+import { Users, Calendar, DollarSign, FileText, Download, UserPlus, FileText as FileTextIcon, ClipboardList } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useDataStore } from '../../store';
 import { formatCurrency } from '../../utils';
 import { generateSamplePatients, generateSampleVisits, generateSampleBills } from '../../lib/sampleData';
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const { patients, visits, bills, addPatient, addVisit, addBill } = useDataStore();
 
   const loadSampleData = () => {
@@ -89,6 +91,34 @@ export default function DashboardPage() {
             </div>
           );
         })}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="card">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => navigate('/patients')}
+            className="flex items-center justify-center gap-3 p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+          >
+            <UserPlus className="h-5 w-5 text-blue-600" />
+            <span className="font-medium text-blue-900">Add New Patient</span>
+          </button>
+          <button
+            onClick={() => navigate('/opd')}
+            className="flex items-center justify-center gap-3 p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors"
+          >
+            <ClipboardList className="h-5 w-5 text-green-600" />
+            <span className="font-medium text-green-900">New OPD Visit</span>
+          </button>
+          <button
+            onClick={() => navigate('/billing')}
+            className="flex items-center justify-center gap-3 p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
+          >
+            <FileTextIcon className="h-5 w-5 text-purple-600" />
+            <span className="font-medium text-purple-900">Create Invoice</span>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
