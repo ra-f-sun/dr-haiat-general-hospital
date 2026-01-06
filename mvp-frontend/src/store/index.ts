@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthState>()(
             name: 'Dr. Admin',
             email,
             role: email.includes('admin') ? 'admin' : 'doctor',
-            phone: '+91 98765 43210',
+            phone: '+880 1712-345678',
           };
           set({ user, isAuthenticated: true });
           return true;

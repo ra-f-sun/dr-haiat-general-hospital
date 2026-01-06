@@ -121,7 +121,7 @@ export default function AddPatientModal({ onClose }: AddPatientModalProps) {
                 {...register('phone')}
                 type="tel"
                 className="input-field"
-                placeholder="+91 98765 43210"
+                placeholder="+880 1712-345678"
               />
               {errors.phone && (
                 <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
@@ -169,7 +169,7 @@ export default function AddPatientModal({ onClose }: AddPatientModalProps) {
               {...register('address')}
               rows={3}
               className="input-field resize-none"
-              placeholder="123 Main Street, City, State, PIN"
+              placeholder="House/Flat, Road, Area, Dhaka"
             />
           </div>
 

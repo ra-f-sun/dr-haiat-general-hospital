@@ -14,9 +14,9 @@ export function formatDate(date: string | Date): string {
 }
 
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-IN', {
+  return new Intl.NumberFormat('en-BD', {
     style: 'currency',
-    currency: 'INR',
+    currency: 'BDT',
     minimumFractionDigits: 0,
   }).format(amount);
 }
