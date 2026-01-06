@@ -1,0 +1,711 @@
+================================================================================
+DR. HAIAT HMS - MVP (Minimum Viable Product) PLAN
+================================================================================
+Branch: mvp-demo
+Timeline: 3-5 days
+Goal: Working frontend prototype with dummy data for stakeholder demo
+================================================================================
+
+PROJECT OVERVIEW
+================================================================================
+Build a functional frontend-only MVP that demonstrates core workflows without
+requiring backend infrastructure. This allows:
+- Quick stakeholder feedback on UI/UX
+- Validation of workflows and user journeys
+- Team training on the interface
+- Early problem identification
+- No database/server setup required
+
+TECHNICAL APPROACH
+================================================================================
+- Frontend: React + TypeScript + Vite
+- State: localStorage for data persistence
+- Mock API: Simulate backend responses with delays
+- Data: Pre-generated realistic Bangladeshi data
+- No Backend: Pure frontend application
+- No Database: All data in memory + localStorage
+
+BRANCH STRATEGY
+================================================================================
+Branch Name: mvp-demo
+Based on: dev branch
+Purpose: Standalone MVP that can be demoed
+
+After MVP approval, migrate learnings to main Phase 1 development.
+
+SCOPE - ESSENTIAL FEATURES ONLY
+================================================================================
+
+1. AUTHENTICATION (Mock)
+   - Login page with hospital branding
+   - 4 predefined users (admin, chairman, manager, receptionist)
+   - No password validation (demo mode)
+   - Role-based navigation
+
+2. DASHBOARD
+   - Today's stats (mock data)
+   - Recent patients list
+   - Quick action buttons
+
+3. PATIENT MANAGEMENT
+   - Patient list (50 pre-loaded patients)
+   - Search by name/phone/ID
+   - Add new patient
+   - View patient details
+   - Edit patient info
+   - Auto-generate Patient ID (PID-0001)
+
+4. OPD MANAGEMENT
+   - Create OPD visit
+   - Link to existing patient
+   - Select doctor (4 doctors pre-loaded)
+   - Enter chief complaint & diagnosis
+   - View OPD visit list
+   - Auto-generate Visit ID (OPD-0001)
+
+5. BILLING & INVOICING
+   - Create invoice (multi-item)
+   - Invoice types: OPD, IPD, Lab, Pharmacy
+   - Add/remove invoice items
+   - Calculate totals
+   - Process payment (Cash/Card/Mobile Banking)
+   - Partial payment support
+   - View dues
+   - Print invoice (with signature)
+   - Auto-generate Invoice ID (INV-0001)
+
+6. PRINT TEMPLATES
+   - Invoice print layout
+   - Payment receipt
+   - Basic prescription format
+
+OUT OF SCOPE (Phase 1 will have these)
+================================================================================
+- IPD/Bed Management (too complex for MVP)
+- Laboratory Management
+- Radiology/USG
+- Operation Theatre
+- E-Prescription (just basic format)
+- Inventory Management
+- Staff/HR/Payroll
+- Advanced Reports
+- SMS/Email notifications
+- Barcode scanning
+
+MVP FEATURES - DETAILED
+================================================================================
+
+MODULE 1: AUTHENTICATION
+------------------------
+Mock Login Page:
+- Hospital logo and name
+- Username field
+- Password field (any password works in demo mode)
+- Login button
+- Error handling (mock)
+
+Pre-loaded Users:
+1. admin / admin123 (Administrator)
+2. chairman / chair123 (Chairman)
+3. manager / manager123 (Manager)
+4. receptionist / recep123 (Receptionist)
+
+After Login:
+- Store user in localStorage
+- Redirect to dashboard
+- Show user name in header
+- Logout functionality
+
+MODULE 2: DASHBOARD
+-------------------
+Stats Cards (Mock Data):
+- Today's Revenue: ৳45,000
+- Total Patients: 234
+- Today's OPD: 12
+- Pending Dues: ৳12,500
+
+Recent Patients Table:
+- Last 10 patients
+- Show: ID, Name, Phone, Last Visit
+- Click to view details
+
+Quick Actions:
+- Button: New Patient
+- Button: New OPD Visit
+- Button: Create Invoice
+
+MODULE 3: PATIENT MANAGEMENT
+----------------------------
+Patient List Page:
+- Table with columns: Patient ID, Name, Age, Gender, Phone, Actions
+- Search bar (filter by name, phone, ID)
+- Filter by gender
+- Pagination (10 per page)
+- "Add Patient" button
+
+Add Patient Form:
+- Name (required)
+- Age (required)
+- Gender (required, dropdown: Male/Female/Other)
+- Phone (required, format: 01XXX-XXXXXX)
+- Address (required)
+- Blood Group (optional, dropdown)
+- Emergency Contact (optional)
+- Form validation with Zod
+- Success notification
+- Auto-generate Patient ID
+
+Patient Details Page:
+- Patient information card
+- Basic info tab
+- Visit history (OPD visits list)
+- Edit button
+- Print patient card (basic)
+
+Pre-loaded Data:
+- 50 realistic Bangladeshi patients
+- Mix of male/female
+- Dhaka addresses (Dhanmondi, Gulshan, Mirpur, etc.)
+- Phone numbers in BD format
+- Various ages (18-70)
+
+MODULE 4: OPD MANAGEMENT
+------------------------
+OPD Visit List:
+- Table: Visit ID, Patient Name, Doctor, Date, Status
+- Filter by date, doctor, status
+- Pagination
+
+Create OPD Visit Form:
+- Patient search/select (autocomplete)
+- Doctor selection (dropdown of 4 doctors)
+- Chief Complaint (textarea)
+- Symptoms (textarea)
+- Diagnosis (textarea)
+- Follow-up Date (date picker)
+- Consultation Fee (auto-filled based on doctor)
+- Create Invoice checkbox
+- Form validation
+- Auto-generate Visit ID
+
+Pre-loaded Data:
+- 4 Doctors:
+  1. Dr. Fatima Rahman (Gyne Surgeon) - ৳1000
+  2. Dr. Ayesha Khan (Gyne Surgeon) - ৳1000
+  3. Dr. Nusrat Jahan (General) - ৳500
+  4. Dr. Tasnim Ahmed (General) - ৳500
+- 100 past OPD visits
+
+MODULE 5: BILLING & INVOICING
+------------------------------
+Create Invoice Page:
+- Patient search/select
+- Invoice type (dropdown: OPD, IPD, Lab, Pharmacy, Other)
+- Invoice items table:
+  - Item/Service (text input)
+  - Quantity (number)
+  - Unit Price (number)
+  - Total (calculated)
+  - Add/Remove row buttons
+- Subtotal (calculated)
+- Discount (optional, %)
+- Tax (optional, %)
+- Grand Total (calculated)
+- Payment section:
+  - Amount Paid (number)
+  - Payment Method (dropdown: Cash, Card, bKash, Nagad, Bank)
+  - Due Amount (calculated)
+- Notes (optional)
+- Created by (auto-filled with current user)
+- Create button
+- Auto-generate Invoice ID
+
+Invoice List Page:
+- Table: Invoice ID, Patient, Date, Amount, Paid, Due, Status
+- Filter by status (All, Paid, Partial, Unpaid)
+- Date range filter
+- Search by patient name/invoice ID
+- Actions: View, Print, Add Payment
+
+Invoice Details/Print:
+- Hospital header (name, address, phone)
+- Invoice ID, Date, Time
+- Patient details
+- Items table
+- Totals
+- Payment details
+- Due amount (if any)
+- Created by (with signature line)
+- Print button (react-to-print)
+
+Payment Processing:
+- Add payment to existing invoice
+- Partial payment support
+- Payment method selection
+- Receipt generation
+- Update due amount
+
+Dues List:
+- Patients with outstanding dues
+- Sort by amount, date
+- Quick payment button
+- Print due invoice
+
+Pre-loaded Data:
+- 200 invoices (mix of paid, partial, unpaid)
+- Various amounts (৳500 - ৳50,000)
+- Different invoice types
+- Realistic items
+
+MODULE 6: LAYOUT & NAVIGATION
+------------------------------
+Sidebar:
+- Collapsible
+- Hospital logo
+- Navigation menu items (role-based):
+  - Dashboard
+  - Patients
+  - OPD
+  - Billing
+  - (Grayed out: IPD, Lab, Pharmacy, etc.)
+- Active state highlighting
+
+Header:
+- User name and role
+- Notifications icon (placeholder)
+- Logout button
+
+Footer:
+- Copyright text
+- Version info
+
+TECHNICAL IMPLEMENTATION
+================================================================================
+
+Project Structure:
+------------------
+mvp-frontend/
+├── src/
+│   ├── features/
+│   │   ├── auth/
+│   │   │   ├── components/
+│   │   │   │   └── LoginForm.tsx
+│   │   │   ├── pages/
+│   │   │   │   └── LoginPage.tsx
+│   │   │   └── mockAuth.ts
+│   │   ├── dashboard/
+│   │   │   ├── components/
+│   │   │   │   ├── StatsCard.tsx
+│   │   │   │   ├── RecentPatients.tsx
+│   │   │   │   └── QuickActions.tsx
+│   │   │   └── pages/
+│   │   │       └── DashboardPage.tsx
+│   │   ├── patients/
+│   │   │   ├── components/
+│   │   │   │   ├── PatientList.tsx
+│   │   │   │   ├── PatientForm.tsx
+│   │   │   │   ├── PatientDetails.tsx
+│   │   │   │   └── PatientSearch.tsx
+│   │   │   ├── pages/
+│   │   │   │   ├── PatientsPage.tsx
+│   │   │   │   ├── AddPatientPage.tsx
+│   │   │   │   └── PatientDetailsPage.tsx
+│   │   │   └── mockPatients.ts
+│   │   ├── opd/
+│   │   │   ├── components/
+│   │   │   │   ├── OPDList.tsx
+│   │   │   │   └── OPDForm.tsx
+│   │   │   ├── pages/
+│   │   │   │   ├── OPDPage.tsx
+│   │   │   │   └── CreateOPDPage.tsx
+│   │   │   └── mockOPD.ts
+│   │   └── billing/
+│   │       ├── components/
+│   │       │   ├── InvoiceForm.tsx
+│   │       │   ├── InvoiceList.tsx
+│   │       │   ├── InvoicePrint.tsx
+│   │       │   └── PaymentForm.tsx
+│   │       ├── pages/
+│   │       │   ├── BillingPage.tsx
+│   │       │   ├── CreateInvoicePage.tsx
+│   │       │   └── DuesPage.tsx
+│   │       └── mockBilling.ts
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Button.tsx
+│   │   │   ├── Input.tsx
+│   │   │   ├── Select.tsx
+│   │   │   ├── Modal.tsx
+│   │   │   ├── Table.tsx
+│   │   │   └── ...
+│   │   └── layout/
+│   │       ├── Layout.tsx
+│   │       ├── Sidebar.tsx
+│   │       ├── Header.tsx
+│   │       └── Footer.tsx
+│   ├── hooks/
+│   │   ├── useLocalStorage.ts
+│   │   └── useMockData.ts
+│   ├── lib/
+│   │   ├── mockApi.ts
+│   │   ├── idGenerator.ts
+│   │   └── formatters.ts
+│   ├── types/
+│   │   ├── patient.types.ts
+│   │   ├── opd.types.ts
+│   │   ├── billing.types.ts
+│   │   └── user.types.ts
+│   ├── utils/
+│   │   ├── mockDataGenerator.ts
+│   │   └── localStorage.ts
+│   ├── App.tsx
+│   └── main.tsx
+├── public/
+│   └── logo.png
+└── package.json
+
+Mock Data Strategy:
+-------------------
+1. Initial Load:
+   - Generate mock data on first app load
+   - Store in localStorage
+   - Include reset data button
+
+2. Data Persistence:
+   - All changes saved to localStorage
+   - Survives page refresh
+   - Can be exported/imported
+
+3. ID Generation:
+   - Patient: PID-0001, PID-0002, etc.
+   - OPD: OPD-0001, OPD-0002, etc.
+   - Invoice: INV-0001, INV-0002, etc.
+   - Sequential numbering
+
+4. Mock API Delays:
+   - Simulate network delays (300-500ms)
+   - Show loading states
+   - Realistic user experience
+
+Mock Data Files:
+----------------
+mockPatients.ts:
+- Generate 50 patients
+- Bangladeshi names
+- Dhaka addresses
+- Realistic phone numbers
+
+mockDoctors.ts:
+- 4 doctors with schedules
+- Specializations
+- Consultation fees
+
+mockOPD.ts:
+- 100 OPD visits
+- Various complaints and diagnoses
+- Linked to patients and doctors
+
+mockInvoices.ts:
+- 200 invoices
+- Mix of paid/partial/unpaid
+- Various amounts and types
+
+DEVELOPMENT TIMELINE
+================================================================================
+
+Day 1: Setup & Authentication (6-8 hours)
+-------------------------------------------
+Morning:
+- Create mvp-demo branch
+- Initialize Vite React TypeScript project
+- Install dependencies (React Router, Tailwind, etc.)
+- Set up project structure
+- Configure Tailwind
+
+Afternoon:
+- Create Layout components (Sidebar, Header)
+- Build Login page
+- Implement mock authentication
+- Create auth context/store
+- Test login/logout flow
+
+Day 2: Patient Management (6-8 hours)
+---------------------------------------
+Morning:
+- Generate mock patient data
+- Create Patient List page
+- Implement search/filter
+- Add pagination
+
+Afternoon:
+- Build Add Patient form with validation
+- Create Patient Details page
+- Implement localStorage persistence
+- Test CRUD operations
+
+Day 3: OPD & Dashboard (6-8 hours)
+------------------------------------
+Morning:
+- Generate mock doctor data
+- Create OPD Visit form
+- Implement patient search/select
+- Link OPD to patients
+
+Afternoon:
+- Build Dashboard with stats
+- Recent patients component
+- Quick action buttons
+- Polish UI/UX
+
+Day 4: Billing & Invoicing (8 hours)
+--------------------------------------
+Morning:
+- Generate mock invoice data
+- Build Create Invoice page
+- Multi-item invoice form
+- Calculate totals
+
+Afternoon:
+- Invoice list with filters
+- Payment processing
+- Dues tracking
+- Invoice print template
+
+Day 5: Polish & Demo Prep (4-6 hours)
+---------------------------------------
+Morning:
+- Add loading states
+- Error handling
+- Form validations
+- Responsive design tweaks
+
+Afternoon:
+- Print templates refinement
+- Demo data cleanup
+- Create demo scenarios
+- Final testing
+- Prepare demo script
+
+DEMO SCENARIOS
+================================================================================
+
+Scenario 1: New Patient Registration
+-------------------------------------
+1. Login as receptionist
+2. Navigate to Patients
+3. Click "Add Patient"
+4. Fill form with demo data
+5. Submit and see success
+6. Search for newly created patient
+7. View patient details
+
+Scenario 2: OPD Visit & Billing
+--------------------------------
+1. Navigate to OPD
+2. Create new visit
+3. Search and select patient
+4. Select doctor
+5. Enter chief complaint and diagnosis
+6. Save visit
+7. Create invoice for consultation
+8. Process payment
+9. Print invoice
+
+Scenario 3: Manage Outstanding Dues
+------------------------------------
+1. Navigate to Billing → Dues
+2. View patients with pending payments
+3. Select a patient
+4. Process partial payment
+5. Print updated invoice
+6. Verify due amount updated
+
+Scenario 4: Dashboard Overview
+-------------------------------
+1. Login as manager
+2. View dashboard statistics
+3. Check recent patients
+4. Use quick actions
+5. Navigate to different modules
+
+TECHNICAL SPECIFICATIONS
+================================================================================
+
+Tech Stack:
+-----------
+- React 18.x
+- TypeScript 5.x
+- Vite 5.x
+- React Router v6
+- Tailwind CSS 3.x
+- Headless UI
+- React Hook Form + Zod
+- date-fns
+- react-to-print
+- Lucide React (icons)
+
+No Backend Dependencies:
+------------------------
+- No axios (not needed yet)
+- No TanStack Query (not needed yet)
+- No Zustand (can use React Context)
+- No actual API calls
+
+localStorage Schema:
+--------------------
+{
+  "drhaiat_auth": { user, isAuthenticated, role },
+  "drhaiat_patients": [ ...patients array ],
+  "drhaiat_doctors": [ ...doctors array ],
+  "drhaiat_opd": [ ...opd visits array ],
+  "drhaiat_invoices": [ ...invoices array ],
+  "drhaiat_payments": [ ...payments array ],
+  "drhaiat_lastIds": { patient: 50, opd: 100, invoice: 200 }
+}
+
+UI/UX Guidelines:
+-----------------
+- Color scheme: Blue (#3B82F6) primary, Green (#10B981) success
+- Typography: Inter font
+- Spacing: Consistent padding/margins
+- Responsive: Desktop first, tablet compatible
+- Loading states: Skeleton loaders
+- Empty states: Helpful messages
+- Error handling: Toast notifications
+- Form validation: Inline errors
+
+Print Layout:
+-------------
+- A4 size
+- Hospital header with logo
+- Clean typography
+- Professional formatting
+- Signature sections
+- Border and styling
+
+DELIVERABLES
+================================================================================
+
+1. Working MVP Application
+   - Runs on localhost:5173
+   - No backend required
+   - All features functional with mock data
+
+2. Demo-Ready Data
+   - 50 patients pre-loaded
+   - 4 doctors
+   - 100 OPD visits
+   - 200 invoices
+   - Realistic Bangladeshi data
+
+3. Print Templates
+   - Invoice
+   - Payment receipt
+   - Patient card (basic)
+
+4. Demo Script
+   - Step-by-step scenarios
+   - Sample workflows
+   - User credentials
+
+5. Reset Function
+   - Reset to initial demo data
+   - Clear localStorage
+   - Reload fresh data
+
+SUCCESS CRITERIA
+================================================================================
+
+✅ Users can log in with 4 different roles
+✅ Dashboard shows statistics and recent patients
+✅ Can register new patients with auto-generated IDs
+✅ Can search and view patient details
+✅ Can create OPD visits linked to patients
+✅ Can create multi-item invoices
+✅ Can process payments (full/partial)
+✅ Can track and view dues
+✅ Can print invoices with hospital branding
+✅ All data persists across page refreshes
+✅ Responsive design works on desktop and tablet
+✅ No console errors or warnings
+✅ Professional UI/UX suitable for demo
+✅ Can reset demo data easily
+
+MIGRATION PATH TO FULL STACK
+================================================================================
+
+After MVP approval:
+
+1. Keep UI components and design
+2. Replace mock data with real API calls
+3. Integrate with NestJS backend
+4. Replace localStorage with database
+5. Add proper authentication (JWT)
+6. Implement remaining Phase 1 features
+7. Follow original Phase 1 roadmap
+
+Mock functions → Real API calls:
+- mockPatients.getAll() → api.patients.list()
+- mockOPD.create() → api.opd.create()
+- mockBilling.createInvoice() → api.billing.createInvoice()
+
+RISKS & MITIGATIONS
+================================================================================
+
+Risk: localStorage limitations (5-10MB)
+Mitigation: Limit mock data size, clear old data
+
+Risk: No real validation
+Mitigation: Add form validation with Zod
+
+Risk: Mock data inconsistencies
+Mitigation: Generate data with proper relationships
+
+Risk: Performance with large datasets
+Mitigation: Implement pagination and filters
+
+Risk: Print layout issues
+Mitigation: Test print on different browsers
+
+COMMANDS TO START
+================================================================================
+
+1. Create MVP Branch:
+   git checkout -b mvp-demo
+
+2. Initialize Project:
+   pnpm create vite mvp-frontend -- --template react-ts
+   cd mvp-frontend
+   pnpm install
+
+3. Install Dependencies:
+   pnpm add react-router-dom
+   pnpm add react-hook-form @hookform/resolvers zod
+   pnpm add date-fns
+   pnpm add react-to-print
+   pnpm add lucide-react
+   pnpm add -D tailwindcss postcss autoprefixer
+   npx tailwindcss init -p
+   pnpm add @headlessui/react
+
+4. Start Development:
+   pnpm run dev
+
+5. Open Browser:
+   http://localhost:5173
+
+NEXT STEPS
+================================================================================
+
+After reading this plan:
+
+1. Confirm approach with team
+2. Create mvp-demo branch
+3. Initialize frontend project
+4. Start Day 1 tasks
+5. Daily progress updates
+6. Schedule demo after Day 5
+
+================================================================================
+END OF MVP PLAN
+================================================================================
