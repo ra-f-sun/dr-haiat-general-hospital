@@ -1,0 +1,565 @@
+{
+  "project": {
+    "name": "Dr. Haiat General Hospital - HMS",
+    "version": "1.0.0",
+    "description": "Hospital Management System for small-scale gynecology focused hospital",
+    "domains": {
+      "main": "drhaiatgh.com",
+      "console": "console.drhaiatgh.com",
+      "api": "api.drhaiatgh.com"
+    }
+  },
+  "hospital": {
+    "name": "Dr. Haiat General Hospital",
+    "type": "Small-scale Gynecology focused",
+    "facilities": {
+      "operationTheatre": 1,
+      "postOTRoom": 1,
+      "laboratory": 1,
+      "usgRoom": 1,
+      "privateCabins": 3,
+      "wardBeds": 5,
+      "chamber": 1
+    },
+    "staff": {
+      "doctors": 4,
+      "gyneSurgeons": 2,
+      "nurses": "multiple",
+      "manager": 1,
+      "receptionists": "multiple",
+      "labAssistants": "multiple",
+      "guards": "multiple"
+    }
+  },
+  "techStack": {
+    "frontend": {
+      "framework": "React 18.x",
+      "language": "TypeScript 5.x",
+      "buildTool": "Vite",
+      "router": "React Router v6",
+      "stateManagement": {
+        "serverState": "TanStack Query v5",
+        "clientState": "Zustand"
+      },
+      "forms": "React Hook Form + Zod",
+      "ui": {
+        "framework": "Tailwind CSS",
+        "components": "Headless UI"
+      },
+      "libraries": [
+        "date-fns",
+        "recharts",
+        "react-hot-toast",
+        "react-to-print",
+        "axios"
+      ]
+    },
+    "backend": {
+      "framework": "NestJS 10.x",
+      "language": "TypeScript 5.x",
+      "runtime": "Node.js 20 LTS",
+      "orm": "Prisma",
+      "database": "PostgreSQL 15",
+      "cache": "Redis 7",
+      "authentication": "Passport.js (JWT)",
+      "queue": "Bull",
+      "documentation": "@nestjs/swagger",
+      "libraries": [
+        "class-validator",
+        "class-transformer",
+        "bcrypt",
+        "node-cron"
+      ]
+    },
+    "devOps": {
+      "versionControl": "Git & GitHub",
+      "processManager": "PM2",
+      "ssl": "Let's Encrypt",
+      "webServer": "Nginx"
+    }
+  },
+  "modules": {
+    "core": [
+      {
+        "name": "Patient Management",
+        "features": [
+          "Unique patient ID generation (PID-0001)",
+          "Patient registration",
+          "Patient search",
+          "Medical history tracking",
+          "Patient details view"
+        ],
+        "roles": ["administrator", "chairman", "manager", "receptionist"]
+      },
+      {
+        "name": "OPD Management",
+        "features": [
+          "Visit registration",
+          "Doctor assignment",
+          "Chief complaint recording",
+          "Diagnosis entry",
+          "Follow-up scheduling"
+        ],
+        "roles": ["administrator", "chairman", "manager", "receptionist"]
+      },
+      {
+        "name": "IPD Management",
+        "features": [
+          "Patient admission",
+          "Bed allocation (3 cabins + 5 ward beds)",
+          "Transfer management",
+          "Discharge processing",
+          "IPD billing"
+        ],
+        "roles": ["administrator", "chairman", "manager", "receptionist"]
+      },
+      {
+        "name": "Billing & Accounts",
+        "features": [
+          "Invoice generation",
+          "Payment processing",
+          "Due tracking",
+          "Due invoice printing",
+          "Refund management",
+          "Multiple payment methods",
+          "Signature tracking on invoices"
+        ],
+        "roles": ["administrator", "chairman", "manager", "receptionist"]
+      },
+      {
+        "name": "Laboratory",
+        "features": [
+          "Test catalog management",
+          "Test request handling",
+          "Sample collection tracking",
+          "Result entry",
+          "Report generation and printing"
+        ],
+        "roles": ["administrator", "chairman", "manager", "receptionist"]
+      },
+      {
+        "name": "Radiology (USG)",
+        "features": [
+          "USG booking",
+          "Report creation",
+          "Report printing",
+          "Image management"
+        ],
+        "roles": ["administrator", "chairman", "manager", "receptionist"]
+      },
+      {
+        "name": "Operation Theatre",
+        "features": [
+          "OT booking",
+          "Surgery scheduling",
+          "Pre-operative notes",
+          "Post-operative care tracking",
+          "OT billing"
+        ],
+        "roles": ["administrator", "chairman", "manager"]
+      },
+      {
+        "name": "E-Prescription",
+        "features": [
+          "Digital prescription creation",
+          "Medicine selection from inventory",
+          "Dosage and duration entry",
+          "Prescription templates",
+          "Prescription history",
+          "Prescription printing"
+        ],
+        "roles": ["administrator", "chairman", "doctors"]
+      },
+      {
+        "name": "Inventory Management",
+        "features": [
+          "Medicine catalog",
+          "Stock tracking",
+          "Low stock alerts",
+          "Expired medicine alerts",
+          "Purchase order management",
+          "Supplier management",
+          "Stock adjustment"
+        ],
+        "roles": ["administrator", "chairman", "manager"]
+      },
+      {
+        "name": "Doctor Management",
+        "features": [
+          "Doctor profiles (4 doctors)",
+          "Specialization tracking",
+          "Schedule management",
+          "Consultation fee setup"
+        ],
+        "roles": ["administrator", "chairman", "manager"]
+      },
+      {
+        "name": "Staff Management",
+        "features": [
+          "Staff registration",
+          "Role assignment",
+          "Contact information",
+          "Staff status tracking"
+        ],
+        "roles": ["administrator", "chairman", "manager"]
+      },
+      {
+        "name": "HR & Payroll",
+        "features": [
+          "Attendance tracking (biometric integration)",
+          "Leave management",
+          "Salary processing",
+          "Payslip generation",
+          "Attendance reports"
+        ],
+        "roles": ["administrator", "chairman", "manager"]
+      },
+      {
+        "name": "Reports & MIS",
+        "features": [
+          "Daily revenue report",
+          "Monthly financial report",
+          "Patient visit reports",
+          "Dues summary",
+          "Department-wise reports",
+          "Custom date range reports"
+        ],
+        "roles": ["administrator", "chairman", "manager"]
+      },
+      {
+        "name": "Activity Logs",
+        "features": [
+          "User action tracking",
+          "Invoice creation logs",
+          "Payment receipt logs",
+          "Signature tracking",
+          "Audit trail"
+        ],
+        "roles": ["administrator"]
+      }
+    ],
+    "supporting": [
+      {
+        "name": "SMS Notifications",
+        "features": [
+          "Appointment reminders",
+          "Lab report ready notifications",
+          "Payment receipts",
+          "Due payment reminders"
+        ]
+      },
+      {
+        "name": "Email Notifications",
+        "features": [
+          "Invoice emails",
+          "Report emails",
+          "Payment confirmations"
+        ]
+      },
+      {
+        "name": "Barcode Integration",
+        "features": [
+          "Patient ID barcode",
+          "Lab sample labels",
+          "Medicine labels"
+        ]
+      },
+      {
+        "name": "Label Printing",
+        "features": [
+          "Thermal printer support",
+          "Invoice printing",
+          "Lab label printing",
+          "USG envelope labels"
+        ]
+      }
+    ]
+  },
+  "userRoles": {
+    "administrator": {
+      "description": "Full system access, can perform all operations",
+      "permissions": [
+        "all_modules",
+        "view_activity_logs",
+        "manage_users",
+        "manage_roles",
+        "system_settings",
+        "delete_records"
+      ]
+    },
+    "chairman": {
+      "description": "Almost full access except admin-specific features",
+      "permissions": [
+        "all_modules_except_activity_logs",
+        "manage_users",
+        "manage_roles",
+        "system_settings",
+        "financial_reports"
+      ]
+    },
+    "manager": {
+      "description": "Operational management access",
+      "permissions": [
+        "patient_management",
+        "opd_ipd_management",
+        "billing",
+        "inventory",
+        "staff_management",
+        "hr_payroll",
+        "reports",
+        "ot_management"
+      ]
+    },
+    "receptionist": {
+      "description": "Front desk operations",
+      "permissions": [
+        "patient_registration",
+        "opd_management",
+        "billing",
+        "lab_requests",
+        "basic_reports"
+      ]
+    }
+  },
+  "database": {
+    "type": "PostgreSQL",
+    "version": "15",
+    "mainTables": [
+      "users",
+      "patients",
+      "opd_visits",
+      "admissions",
+      "beds",
+      "doctors",
+      "doctor_schedules",
+      "prescriptions",
+      "prescription_items",
+      "medicines",
+      "stocks",
+      "suppliers",
+      "test_categories",
+      "tests",
+      "lab_tests",
+      "radiology_tests",
+      "ot_bookings",
+      "invoices",
+      "invoice_items",
+      "payments",
+      "staff",
+      "attendances",
+      "salary_records",
+      "leaves",
+      "activity_logs"
+    ]
+  },
+  "apiEndpoints": {
+    "auth": [
+      "POST /api/v1/auth/login",
+      "POST /api/v1/auth/logout",
+      "POST /api/v1/auth/me",
+      "POST /api/v1/auth/change-password"
+    ],
+    "patients": [
+      "GET /api/v1/patients",
+      "POST /api/v1/patients",
+      "GET /api/v1/patients/:id",
+      "PATCH /api/v1/patients/:id",
+      "DELETE /api/v1/patients/:id",
+      "GET /api/v1/patients/search"
+    ],
+    "opd": [
+      "GET /api/v1/opd",
+      "POST /api/v1/opd",
+      "GET /api/v1/opd/:id",
+      "PATCH /api/v1/opd/:id"
+    ],
+    "ipd": [
+      "GET /api/v1/ipd/admissions",
+      "POST /api/v1/ipd/admit",
+      "PATCH /api/v1/ipd/discharge/:id",
+      "PATCH /api/v1/ipd/transfer/:id",
+      "GET /api/v1/ipd/beds",
+      "PATCH /api/v1/ipd/beds/:id/status"
+    ],
+    "billing": [
+      "GET /api/v1/billing/invoices",
+      "POST /api/v1/billing/invoices",
+      "GET /api/v1/billing/invoices/:id",
+      "POST /api/v1/billing/payments",
+      "GET /api/v1/billing/dues"
+    ],
+    "laboratory": [
+      "GET /api/v1/lab/tests",
+      "POST /api/v1/lab/tests",
+      "GET /api/v1/lab/tests/:id",
+      "PATCH /api/v1/lab/tests/:id/result",
+      "GET /api/v1/lab/categories"
+    ],
+    "radiology": [
+      "GET /api/v1/radiology/tests",
+      "POST /api/v1/radiology/tests",
+      "GET /api/v1/radiology/tests/:id",
+      "PATCH /api/v1/radiology/tests/:id/report"
+    ],
+    "operationTheatre": [
+      "GET /api/v1/ot/bookings",
+      "POST /api/v1/ot/bookings",
+      "GET /api/v1/ot/bookings/:id",
+      "PATCH /api/v1/ot/bookings/:id"
+    ],
+    "prescriptions": [
+      "GET /api/v1/prescriptions",
+      "POST /api/v1/prescriptions",
+      "GET /api/v1/prescriptions/:id",
+      "GET /api/v1/prescriptions/patient/:patientId"
+    ],
+    "inventory": [
+      "GET /api/v1/inventory/medicines",
+      "POST /api/v1/inventory/medicines",
+      "GET /api/v1/inventory/medicines/:id",
+      "PATCH /api/v1/inventory/medicines/:id",
+      "GET /api/v1/inventory/stock",
+      "POST /api/v1/inventory/stock/adjust",
+      "GET /api/v1/inventory/low-stock"
+    ],
+    "staff": [
+      "GET /api/v1/staff",
+      "POST /api/v1/staff",
+      "GET /api/v1/staff/:id",
+      "PATCH /api/v1/staff/:id"
+    ],
+    "doctors": [
+      "GET /api/v1/doctors",
+      "POST /api/v1/doctors",
+      "GET /api/v1/doctors/:id",
+      "PATCH /api/v1/doctors/:id",
+      "GET /api/v1/doctors/:id/schedule",
+      "POST /api/v1/doctors/:id/schedule"
+    ],
+    "hrPayroll": [
+      "GET /api/v1/hr/attendance",
+      "POST /api/v1/hr/attendance",
+      "GET /api/v1/hr/salary",
+      "POST /api/v1/hr/salary/process",
+      "GET /api/v1/hr/leaves",
+      "POST /api/v1/hr/leaves",
+      "PATCH /api/v1/hr/leaves/:id/approve"
+    ],
+    "reports": [
+      "GET /api/v1/reports/daily",
+      "GET /api/v1/reports/monthly",
+      "GET /api/v1/reports/custom"
+    ],
+    "activityLogs": [
+      "GET /api/v1/activity-logs"
+    ]
+  },
+  "features": {
+    "signatureTracking": {
+      "description": "Track user signatures on invoices and receipts",
+      "implementation": "Store user ID, name, and role in invoice/payment records"
+    },
+    "duesManagement": {
+      "description": "Track and print patient dues",
+      "features": [
+        "Due amount calculation",
+        "Partial payment tracking",
+        "Due invoice printing",
+        "Due reminder SMS"
+      ]
+    },
+    "activityLogging": {
+      "description": "Admin can track all system activities",
+      "logged": [
+        "User login/logout",
+        "Invoice creation",
+        "Payment receipt",
+        "Record modifications",
+        "Module access"
+      ]
+    }
+  },
+  "costs": {
+    "oneTime": {
+      "domain": {
+        "amount": 1200,
+        "currency": "BDT",
+        "period": "yearly"
+      },
+      "barcodeScanner": {
+        "amount": 6000,
+        "currency": "BDT",
+        "type": "mid-range USB handheld"
+      },
+      "thermalPrinter": {
+        "amount": 15000,
+        "currency": "BDT",
+        "type": "80mm thermal printer"
+      },
+      "total": 22200
+    },
+    "monthly": {
+      "hosting": {
+        "amount": 600,
+        "currency": "BDT",
+        "provider": "Hostinger Business (Year 1)"
+      },
+      "sms": {
+        "amount": 2000,
+        "currency": "BDT",
+        "estimated": "500 SMS/month"
+      },
+      "email": {
+        "amount": 0,
+        "currency": "BDT",
+        "note": "Free tier (10k emails/month)"
+      },
+      "backup": {
+        "amount": 150,
+        "currency": "BDT",
+        "service": "Google Drive 100GB (optional)"
+      },
+      "total": 2750
+    },
+    "firstYear": 55200,
+    "annualAfter": 19200
+  },
+  "deployment": {
+    "domains": {
+      "main": "drhaiatgh.com (WordPress - Hospital website)",
+      "console": "console.drhaiatgh.com (React App)",
+      "api": "api.drhaiatgh.com (NestJS API)"
+    },
+    "server": {
+      "type": "Shared Hosting (Year 1) or VPS (Year 2+)",
+      "requirements": {
+        "nodejs": "20 LTS",
+        "postgresql": "15",
+        "redis": "7",
+        "nginx": "latest",
+        "pm2": "latest"
+      }
+    },
+    "ssl": "Let's Encrypt (Free, Auto-renewable)",
+    "processManager": "PM2"
+  },
+  "integrations": {
+    "sms": {
+      "providers": ["SSL Wireless", "BulkSMS Bangladesh", "Carnival Internet"],
+      "costPerSMS": "0.25-5.00 BDT"
+    },
+    "email": {
+      "provider": "Gmail SMTP or SendGrid",
+      "cost": "Free (up to 10k emails/month)"
+    },
+    "biometric": {
+      "devices": ["ZKTeco"],
+      "optional": true,
+      "addLater": true
+    },
+    "barcode": {
+      "scanner": "USB handheld scanner",
+      "labelPrinter": "80mm thermal printer"
+    }
+  }
+}

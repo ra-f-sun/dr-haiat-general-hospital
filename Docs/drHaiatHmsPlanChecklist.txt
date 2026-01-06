@@ -1,0 +1,879 @@
+================================================================================
+DR. HAIAT GENERAL HOSPITAL - HMS PROJECT CHECKLIST
+================================================================================
+
+Legend:
+☐ Not Started
+⧗ In Progress
+✓ Completed
+✗ Blocked/Issue
+
+================================================================================
+PHASE 0: PROJECT SETUP & INITIALIZATION
+================================================================================
+Timeline: Week 1
+
+Backend Setup:
+☐ Install Node.js 20 LTS
+☐ Install PostgreSQL 15
+☐ Install Redis 7
+☐ Create NestJS project: nest new backend
+☐ Install Prisma: npm install prisma @prisma/client
+☐ Install core dependencies (passport, jwt, bcrypt, class-validator)
+☐ Set up Prisma schema
+☐ Configure database connection
+☐ Set up environment variables (.env)
+☐ Initialize Git repository
+☐ Create .gitignore file
+
+Frontend Setup:
+☐ Create React + Vite project: npm create vite@latest frontend
+☐ Install TypeScript
+☐ Install React Router
+☐ Install TanStack Query
+☐ Install Zustand
+☐ Install Tailwind CSS
+☐ Install React Hook Form + Zod
+☐ Install Axios
+☐ Set up folder structure
+☐ Configure Tailwind
+☐ Set up environment variables
+
+Shared Types:
+☐ Create packages/shared-types folder
+☐ Set up shared TypeScript types
+☐ Configure package linking
+
+Development Tools:
+☐ Install VS Code extensions
+☐ Set up ESLint
+☐ Set up Prettier
+☐ Configure Git hooks (optional)
+
+================================================================================
+PHASE 1: AUTHENTICATION & USER MANAGEMENT
+================================================================================
+Timeline: Week 2
+
+Backend - Authentication Module:
+☐ Create auth module: nest g module auth
+☐ Create auth controller: nest g controller auth
+☐ Create auth service: nest g service auth
+☐ Implement JWT strategy
+☐ Create LoginDto
+☐ Implement login endpoint
+☐ Implement logout endpoint
+☐ Implement "me" endpoint (get current user)
+☐ Create JWT auth guard
+☐ Hash passwords with bcrypt
+
+Backend - Users Module:
+☐ Create users module
+☐ Create users controller
+☐ Create users service
+☐ Create CreateUserDto
+☐ Create UpdateUserDto
+☐ Implement CRUD operations
+☐ Implement role-based access control (RBAC)
+☐ Create roles guard
+☐ Create roles decorator
+
+Database:
+☐ Create User model in Prisma schema
+☐ Define UserRole enum
+☐ Run migration: npx prisma migrate dev
+☐ Create seed file for admin user
+☐ Run seed: npx prisma db seed
+
+Frontend - Auth:
+☐ Create login page UI
+☐ Create LoginForm component
+☐ Implement useAuth hook
+☐ Set up axios interceptors
+☐ Implement token storage
+☐ Create PrivateRoute component
+☐ Create RoleBasedRoute component
+☐ Implement logout functionality
+☐ Create auth store (Zustand)
+
+Testing:
+☐ Test login with valid credentials
+☐ Test login with invalid credentials
+☐ Test token refresh
+☐ Test protected routes
+☐ Test role-based access
+
+================================================================================
+PHASE 2: PATIENT MANAGEMENT
+================================================================================
+Timeline: Week 3
+
+Backend - Patients Module:
+☐ Create patients module
+☐ Create patients controller
+☐ Create patients service
+☐ Create CreatePatientDto
+☐ Create UpdatePatientDto
+☐ Create SearchPatientDto
+☐ Implement patient ID generation (PID-0001)
+☐ Implement CRUD operations
+☐ Implement search functionality
+☐ Implement pagination
+
+Database:
+☐ Create Patient model in Prisma schema
+☐ Define Gender enum
+☐ Run migration
+
+Frontend - Patients:
+☐ Create patient list page
+☐ Create add patient page
+☐ Create patient details page
+☐ Create PatientList component
+☐ Create PatientForm component
+☐ Create PatientDetails component
+☐ Create PatientSearch component
+☐ Implement usePatients hook
+☐ Add form validation with Zod
+☐ Implement pagination
+
+Testing:
+☐ Test patient registration
+☐ Test patient search
+☐ Test patient details view
+☐ Test patient update
+☐ Test unique patient ID generation
+
+================================================================================
+PHASE 3: DOCTOR & STAFF MANAGEMENT
+================================================================================
+Timeline: Week 4
+
+Backend - Doctors Module:
+☐ Create doctors module
+☐ Create doctors controller
+☐ Create doctors service
+☐ Create CreateDoctorDto
+☐ Create DoctorScheduleDto
+☐ Implement doctor ID generation (DOC-0001)
+☐ Implement CRUD operations
+☐ Implement schedule management
+
+Backend - Staff Module:
+☐ Create staff module
+☐ Create staff controller
+☐ Create staff service
+☐ Create CreateStaffDto
+☐ Implement staff ID generation (STF-0001)
+☐ Implement CRUD operations
+
+Database:
+☐ Create Doctor model
+☐ Create DoctorSchedule model
+☐ Create Staff model
+☐ Define DoctorSpecialization enum
+☐ Define StaffType enum
+☐ Define DayOfWeek enum
+☐ Run migrations
+
+Frontend - Doctors:
+☐ Create doctor list page
+☐ Create add doctor page
+☐ Create DoctorList component
+☐ Create DoctorForm component
+☐ Create DoctorSchedule component
+☐ Implement useDoctors hook
+
+Frontend - Staff:
+☐ Create staff list page
+☐ Create add staff page
+☐ Create StaffList component
+☐ Create StaffForm component
+☐ Implement useStaff hook
+
+Testing:
+☐ Test doctor registration
+☐ Test doctor schedule setup
+☐ Test staff registration
+☐ Test 4 doctor limit validation
+
+================================================================================
+PHASE 4: OPD MANAGEMENT
+================================================================================
+Timeline: Week 5
+
+Backend - OPD Module:
+☐ Create opd module
+☐ Create opd controller
+☐ Create opd service
+☐ Create CreateOPDVisitDto
+☐ Implement OPD visit ID generation (OPD-0001)
+☐ Implement visit registration
+☐ Implement doctor assignment
+☐ Implement diagnosis entry
+☐ Implement follow-up scheduling
+
+Database:
+☐ Create OPDVisit model
+☐ Set up relations with Patient and Doctor
+☐ Run migration
+
+Frontend - OPD:
+☐ Create OPD page
+☐ Create OPDVisitForm component
+☐ Create OPDQueue component
+☐ Create OPDInvoice component
+☐ Implement useOPD hook
+☐ Add doctor selection dropdown
+☐ Add patient search in OPD
+
+Testing:
+☐ Test OPD visit creation
+☐ Test doctor assignment
+☐ Test visit status updates
+☐ Test follow-up scheduling
+
+================================================================================
+PHASE 5: IPD & BED MANAGEMENT
+================================================================================
+Timeline: Week 6
+
+Backend - IPD Module:
+☐ Create ipd module
+☐ Create ipd controller
+☐ Create ipd service
+☐ Create AdmitPatientDto
+☐ Create DischargePatientDto
+☐ Create TransferPatientDto
+☐ Implement admission ID generation (IPD-0001)
+☐ Implement admission logic
+☐ Implement bed allocation (3 cabins + 5 ward beds)
+☐ Implement transfer logic
+☐ Implement discharge logic
+☐ Calculate IPD billing
+
+Database:
+☐ Create Admission model
+☐ Create Bed model
+☐ Define BedType enum (CABIN, WARD)
+☐ Define BedStatus enum
+☐ Define AdmissionStatus enum
+☐ Run migrations
+
+Frontend - IPD:
+☐ Create IPD page
+☐ Create bed management page
+☐ Create AdmissionForm component
+☐ Create BedManagement component
+☐ Create DischargeForm component
+☐ Create IPDPatientCard component
+☐ Implement useIPD hook
+☐ Add bed availability indicator
+
+Testing:
+☐ Test patient admission
+☐ Test bed allocation (3 cabins + 5 ward beds)
+☐ Test bed availability status
+☐ Test patient transfer
+☐ Test patient discharge
+
+================================================================================
+PHASE 6: BILLING & ACCOUNTS
+================================================================================
+Timeline: Week 7-8
+
+Backend - Billing Module:
+☐ Create billing module
+☐ Create billing controller
+☐ Create billing service
+☐ Create CreateInvoiceDto
+☐ Create PaymentDto
+☐ Create RefundDto
+☐ Implement invoice ID generation (INV-0001)
+☐ Implement payment ID generation (PAY-0001)
+☐ Implement invoice creation
+☐ Implement payment processing
+☐ Implement due calculation
+☐ Implement partial payment handling
+☐ Implement refund logic
+☐ Add signature tracking (user info on invoices)
+
+Database:
+☐ Create Invoice model
+☐ Create InvoiceItem model
+☐ Create Payment model
+☐ Define InvoiceType enum
+☐ Define InvoiceStatus enum
+☐ Define PaymentMethod enum
+☐ Set up relations
+☐ Run migrations
+
+Frontend - Billing:
+☐ Create billing page
+☐ Create dues page
+☐ Create InvoiceForm component
+☐ Create PaymentForm component
+☐ Create DuesTable component
+☐ Create InvoicePrint component (with signature)
+☐ Implement useBilling hook
+☐ Implement react-to-print for invoices
+☐ Add print functionality for due invoices
+
+Testing:
+☐ Test invoice creation
+☐ Test payment processing
+☐ Test due calculation
+☐ Test partial payment
+☐ Test invoice printing with signature
+☐ Test dues listing
+☐ Test due invoice printing
+
+================================================================================
+PHASE 7: LABORATORY MANAGEMENT
+================================================================================
+Timeline: Week 9
+
+Backend - Laboratory Module:
+☐ Create laboratory module
+☐ Create laboratory controller
+☐ Create laboratory service
+☐ Create CreateTestDto
+☐ Create TestResultDto
+☐ Implement test ID generation (LAB-0001)
+☐ Implement test catalog
+☐ Implement test request
+☐ Implement sample collection tracking
+☐ Implement result entry
+☐ Implement report generation
+
+Database:
+☐ Create TestCategory model
+☐ Create Test model
+☐ Create LabTest model
+☐ Define TestStatus enum
+☐ Run migrations
+
+Frontend - Laboratory:
+☐ Create laboratory page
+☐ Create TestRequestForm component
+☐ Create TestResultForm component
+☐ Create LabReportPrint component
+☐ Implement useLab hook
+☐ Add test catalog dropdown
+
+Testing:
+☐ Test test request creation
+☐ Test sample collection
+☐ Test result entry
+☐ Test report generation
+☐ Test report printing
+
+================================================================================
+PHASE 8: RADIOLOGY (USG) MANAGEMENT
+================================================================================
+Timeline: Week 10
+
+Backend - Radiology Module:
+☐ Create radiology module
+☐ Create radiology controller
+☐ Create radiology service
+☐ Create USGReportDto
+☐ Implement radiology test ID generation (RAD-0001)
+☐ Implement USG booking
+☐ Implement report creation
+
+Database:
+☐ Create RadiologyTest model
+☐ Define RadiologyType enum
+☐ Run migration
+
+Frontend - Radiology:
+☐ Create radiology page
+☐ Create USGReportForm component
+☐ Create RadiologyReportPrint component
+☐ Implement useRadiology hook
+
+Testing:
+☐ Test USG booking
+☐ Test report creation
+☐ Test report printing
+
+================================================================================
+PHASE 9: OPERATION THEATRE MANAGEMENT
+================================================================================
+Timeline: Week 11
+
+Backend - OT Module:
+☐ Create operation-theatre module
+☐ Create ot controller
+☐ Create ot service
+☐ Create BookOTDto
+☐ Create OTProcedureDto
+☐ Create PostOpCareDto
+☐ Implement OT booking ID generation (OT-0001)
+☐ Implement booking logic
+☐ Implement scheduling
+☐ Implement procedure tracking
+☐ Implement post-op care
+
+Database:
+☐ Create OTBooking model
+☐ Define OTStatus enum
+☐ Run migration
+
+Frontend - OT:
+☐ Create OT page
+☐ Create OTBookingForm component
+☐ Create OTSchedule component
+☐ Create PostOpCareForm component
+☐ Implement useOT hook
+☐ Add OT availability calendar
+
+Testing:
+☐ Test OT booking (1 OT room)
+☐ Test schedule conflicts
+☐ Test procedure recording
+☐ Test post-op care tracking
+
+================================================================================
+PHASE 10: E-PRESCRIPTION
+================================================================================
+Timeline: Week 12
+
+Backend - Prescriptions Module:
+☐ Create prescriptions module
+☐ Create prescriptions controller
+☐ Create prescriptions service
+☐ Create CreatePrescriptionDto
+☐ Create PrescriptionTemplateDto
+☐ Implement prescription ID generation (PRX-0001)
+☐ Implement prescription creation
+☐ Link with medicine inventory
+☐ Implement prescription history
+
+Database:
+☐ Create Prescription model
+☐ Create PrescriptionItem model
+☐ Set up relations
+☐ Run migrations
+
+Frontend - Prescriptions:
+☐ Create prescriptions page
+☐ Create PrescriptionForm component
+☐ Create PrescriptionTemplate component
+☐ Create PrescriptionPrint component
+☐ Implement usePrescriptions hook
+☐ Add medicine autocomplete
+☐ Link with patient OPD/IPD visits
+
+Testing:
+☐ Test prescription creation
+☐ Test medicine selection from inventory
+☐ Test prescription templates
+☐ Test prescription printing
+☐ Test prescription history
+
+================================================================================
+PHASE 11: INVENTORY MANAGEMENT
+================================================================================
+Timeline: Week 13
+
+Backend - Inventory Module:
+☐ Create inventory module
+☐ Create inventory controller
+☐ Create inventory service
+☐ Create AddMedicineDto
+☐ Create StockAdjustmentDto
+☐ Create PurchaseOrderDto
+☐ Implement medicine ID generation (MED-0001)
+☐ Implement supplier ID generation (SUP-0001)
+☐ Implement medicine catalog
+☐ Implement stock tracking
+☐ Implement low stock alerts
+☐ Implement expired medicine tracking
+☐ Implement stock adjustment
+
+Database:
+☐ Create Medicine model
+☐ Create Stock model
+☐ Create Supplier model
+☐ Run migrations
+
+Frontend - Inventory:
+☐ Create inventory page
+☐ Create MedicineList component
+☐ Create StockAdjustment component
+☐ Create PurchaseOrderForm component
+☐ Create LowStockAlert component
+☐ Implement useInventory hook
+
+Testing:
+☐ Test medicine addition
+☐ Test stock tracking
+☐ Test low stock alerts
+☐ Test expired medicine alerts
+☐ Test stock adjustment
+☐ Test purchase orders
+
+================================================================================
+PHASE 12: HR & PAYROLL
+================================================================================
+Timeline: Week 14
+
+Backend - HR Payroll Module:
+☐ Create hr-payroll module
+☐ Create payroll controller
+☐ Create payroll service
+☐ Create AttendanceDto
+☐ Create SalarySheetDto
+☐ Create LeaveDto
+☐ Implement attendance tracking
+☐ Implement leave management
+☐ Implement salary processing
+☐ Implement payslip generation
+
+Database:
+☐ Create Attendance model
+☐ Create SalaryRecord model
+☐ Create Leave model
+☐ Define AttendanceStatus enum
+☐ Define LeaveType enum
+☐ Define LeaveStatus enum
+☐ Run migrations
+
+Frontend - HR Payroll:
+☐ Create payroll page
+☐ Create attendance page
+☐ Create AttendanceTable component
+☐ Create SalarySheet component
+☐ Create LeaveManagement component
+☐ Implement usePayroll hook
+
+Biometric Integration (Optional):
+☐ Research ZKTeco API
+☐ Implement biometric attendance sync
+☐ Test with actual device
+
+Testing:
+☐ Test attendance marking
+☐ Test leave application
+☐ Test leave approval
+☐ Test salary processing
+☐ Test payslip generation
+
+================================================================================
+PHASE 13: REPORTS & MIS
+================================================================================
+Timeline: Week 15
+
+Backend - Reports Module:
+☐ Create reports module
+☐ Create reports controller
+☐ Create reports service
+☐ Implement daily revenue report
+☐ Implement monthly financial report
+☐ Implement patient visit report
+☐ Implement dues summary report
+☐ Implement department-wise reports
+☐ Implement custom date range reports
+☐ Add export to Excel functionality
+
+Frontend - Reports:
+☐ Create reports page
+☐ Create DailyReport component
+☐ Create MonthlyReport component
+☐ Create CustomReport component
+☐ Implement useReports hook
+☐ Add date range picker
+☐ Add export buttons
+
+Testing:
+☐ Test daily reports
+☐ Test monthly reports
+☐ Test custom date range
+☐ Test report export
+☐ Test different report filters
+
+================================================================================
+PHASE 14: ACTIVITY LOGS
+================================================================================
+Timeline: Week 16
+
+Backend - Activity Logs Module:
+☐ Create activity-logs module
+☐ Create activity-logs controller
+☐ Create activity-logs service
+☐ Implement activity logging interceptor
+☐ Log user login/logout
+☐ Log invoice creation
+☐ Log payment receipt
+☐ Log record modifications
+☐ Log module access
+
+Database:
+☐ Create ActivityLog model
+☐ Run migration
+
+Frontend - Activity Logs:
+☐ Create activity logs page (admin only)
+☐ Create ActivityLogTable component
+☐ Implement filtering and search
+☐ Add pagination
+
+Testing:
+☐ Test activity logging
+☐ Test admin access only
+☐ Test log filtering
+☐ Test log search
+
+================================================================================
+PHASE 15: NOTIFICATIONS (SMS & EMAIL)
+================================================================================
+Timeline: Week 17
+
+Backend - Notifications Module:
+☐ Create notifications module
+☐ Create SMS service
+☐ Create email service
+☐ Integrate SMS gateway (SSL/Carnival/BulkSMS)
+☐ Integrate SMTP (Gmail/SendGrid)
+☐ Implement appointment reminder SMS
+☐ Implement lab report ready SMS
+☐ Implement payment receipt SMS
+☐ Implement due reminder SMS
+☐ Implement email templates
+☐ Set up Bull queue for async sending
+
+Testing:
+☐ Test SMS sending
+☐ Test email sending
+☐ Test notification queue
+☐ Test different notification types
+
+================================================================================
+PHASE 16: DASHBOARD & ANALYTICS
+================================================================================
+Timeline: Week 18
+
+Backend:
+☐ Create dashboard stats endpoint
+☐ Implement today's revenue calculation
+☐ Implement patient count statistics
+☐ Implement pending tests count
+☐ Implement dues summary
+
+Frontend - Dashboard:
+☐ Create dashboard page
+☐ Create StatCard component
+☐ Create RecentPatients component
+☐ Create DailyRevenueChart component
+☐ Implement real-time updates
+☐ Add quick actions buttons
+
+Testing:
+☐ Test dashboard loading
+☐ Test statistics accuracy
+☐ Test charts rendering
+☐ Test quick actions
+
+================================================================================
+PHASE 17: WORDPRESS WEBSITE (FRONTEND)
+================================================================================
+Timeline: Week 19
+
+WordPress Setup:
+☐ Purchase domain: drhaiatgh.com
+☐ Install WordPress
+☐ Install theme (Astra/GeneratePress)
+☐ Configure theme settings
+
+Pages:
+☐ Create Home/Landing page
+☐ Create About Us page
+☐ Create Our Doctors page
+☐ Create Our Services page
+☐ Create Facilities page
+☐ Create Contact page
+☐ Create Appointment page (contact form)
+
+Custom Post Type:
+☐ Create Doctors custom post type
+☐ Add doctor fields (name, specialization, schedule)
+☐ Display doctors dynamically
+
+Styling:
+☐ Match hospital branding
+☐ Add hospital logo
+☐ Add contact information
+☐ Add location map
+☐ Make mobile responsive
+
+Testing:
+☐ Test all pages
+☐ Test contact forms
+☐ Test mobile responsiveness
+☐ Test page load speed
+
+================================================================================
+PHASE 18: DEPLOYMENT
+================================================================================
+Timeline: Week 20
+
+Server Setup:
+☐ Purchase hosting/VPS
+☐ Install Node.js 20 LTS
+☐ Install PostgreSQL 15
+☐ Install Redis 7
+☐ Install Nginx
+☐ Install PM2
+☐ Configure firewall
+
+SSL & Domain:
+☐ Point domain to server
+☐ Set up subdomains (console, api)
+☐ Install Let's Encrypt SSL
+☐ Configure auto-renewal
+
+Database:
+☐ Create production database
+☐ Run migrations
+☐ Create admin user seed
+☐ Backup strategy setup
+
+Backend Deployment:
+☐ Clone repository
+☐ Install dependencies
+☐ Build: npm run build
+☐ Set up .env file
+☐ Start with PM2
+☐ Configure PM2 startup
+
+Frontend Deployment:
+☐ Build: npm run build
+☐ Copy dist to server
+☐ Configure Nginx for SPA
+
+Nginx Configuration:
+☐ Configure reverse proxy for API
+☐ Configure static file serving
+☐ Enable gzip compression
+☐ Set up rate limiting
+☐ Configure CORS
+
+Testing:
+☐ Test all endpoints
+☐ Test frontend access
+☐ Test SSL certificates
+☐ Test database connection
+☐ Perform load testing
+
+================================================================================
+PHASE 19: HARDWARE INTEGRATION
+================================================================================
+Timeline: Week 21
+
+Barcode Scanner:
+☐ Purchase USB barcode scanner
+☐ Test scanner with system
+☐ Configure scanner settings
+☐ Test patient ID scanning
+☐ Test lab sample scanning
+
+Label Printer:
+☐ Purchase 80mm thermal printer
+☐ Install printer drivers
+☐ Test invoice printing
+☐ Test lab label printing
+☐ Configure print settings
+☐ Test barcode label printing
+
+Biometric Device (Optional):
+☐ Purchase ZKTeco device
+☐ Install at entrance
+☐ Configure device
+☐ Test attendance sync
+☐ Train staff
+
+Testing:
+☐ Test end-to-end workflow with hardware
+☐ Test printer paper replacement
+☐ Test backup procedures
+
+================================================================================
+PHASE 20: USER TRAINING & GO-LIVE
+================================================================================
+Timeline: Week 22
+
+Documentation:
+☐ Create user manual
+☐ Create admin manual
+☐ Create video tutorials
+☐ Document common workflows
+
+Training:
+☐ Train receptionist 1
+☐ Train receptionist 2
+☐ Train manager
+☐ Train lab technician
+☐ Train doctors (e-prescription)
+☐ Train admin user (chairman)
+
+Data Migration (if applicable):
+☐ Export old data
+☐ Clean and format data
+☐ Import patients
+☐ Import medicines
+☐ Verify data integrity
+
+Soft Launch:
+☐ Start with limited users
+☐ Run parallel with old system (1 week)
+☐ Collect feedback
+☐ Fix bugs
+☐ Monitor performance
+
+Full Launch:
+☐ Announce to all staff
+☐ Go fully live
+☐ Stop old system
+☐ Monitor first week closely
+☐ Provide on-site support
+
+Post-Launch:
+☐ Daily check-ins (Week 1)
+☐ Weekly check-ins (Month 1)
+☐ Monthly check-ins (Month 2-3)
+☐ Collect improvement suggestions
+☐ Plan future enhancements
+
+================================================================================
+OPTIONAL ENHANCEMENTS (FUTURE)
+================================================================================
+
+☐ Mobile app for doctors
+☐ Patient portal (view reports, book appointments)
+☐ WhatsApp integration for notifications
+☐ Online payment gateway
+☐ Telemedicine module
+☐ PACS integration
+☐ Insurance claim management
+☐ Pharmacy retail module
+☐ Multi-branch support
+☐ Advanced analytics with AI
+
+================================================================================
+PROJECT COMPLETION
+================================================================================
+
+☐ All core features implemented
+☐ All staff trained
+☐ System running smoothly
+☐ Documentation complete
+☐ Backup and recovery tested
+☐ Performance optimized
+☐ Security audited
+☐ Client sign-off received
+
+================================================================================
+END OF CHECKLIST
+================================================================================

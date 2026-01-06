@@ -1,0 +1,17 @@
+{
+  "name": "@drhaiat/shared-types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for Dr. Haiat HMS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": ["types", "typescript", "hms"],
+  "author": "Dr. Haiat General Hospital",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

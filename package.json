@@ -1,0 +1,37 @@
+{
+  "name": "dr-haiat-hms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hospital Management System for Dr. Haiat General Hospital",
+  "workspaces": [
+    "packages/*",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "build": "pnpm --filter shared-types build && pnpm --filter backend build && pnpm --filter frontend build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hms",
+    "hospital",
+    "management",
+    "nestjs",
+    "react"
+  ],
+  "author": "Dr. Haiat General Hospital",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "^8.55.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

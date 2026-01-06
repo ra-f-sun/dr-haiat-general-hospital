@@ -1,0 +1,2289 @@
+================================================================================
+DR. HAIAT GENERAL HOSPITAL - HOSPITAL MANAGEMENT SYSTEM (HMS)
+COMPREHENSIVE PLANNING DOCUMENT
+================================================================================
+
+PROJECT OVERVIEW
+================================================================================
+Hospital Name: Dr. Haiat General Hospital
+Domain: drhaiatgh.com
+HMS Console: console.drhaiatgh.com
+API Endpoint: api.drhaiatgh.com
+
+Hospital Type: Small-scale Gynecology focused hospital
+Capacity: 
+  - 1 Operation Theatre (OT)
+  - 1 Post-OT room
+  - 1 Laboratory
+  - 1 USG room
+  - 3 Private Cabins
+  - 1 Ward (5 beds)
+  - 1 Doctor Chamber
+
+Staff:
+  - 4 Doctors (2 Gynecology Surgeons + 2 Others)
+  - Multiple support staff (nurses, manager, receptionist, lab assistant, guards)
+  - 1 Medicine store room (internal use, not commercial pharmacy)
+
+================================================================================
+TECHNOLOGY STACK
+================================================================================
+
+Frontend (React + TypeScript):
+  - React 18.x
+  - TypeScript 5.x
+  - Vite (Build tool)
+  - React Router v6
+  - TanStack Query (React Query) v5
+  - Zustand (Global state)
+  - React Hook Form + Zod
+  - Tailwind CSS + Headless UI
+  - date-fns
+  - recharts (Dashboard charts)
+  - react-hot-toast (Notifications)
+  - react-to-print (Invoice printing)
+  - axios
+
+Backend (NestJS + TypeScript):
+  - NestJS 10.x
+  - TypeScript 5.x
+  - Node.js 20 LTS
+  - Prisma ORM
+  - PostgreSQL 15
+  - Redis 7 (Cache & Queue)
+  - Passport.js (JWT Authentication)
+  - Bull (Queue management)
+  - @nestjs/swagger (API Documentation)
+  - class-validator, class-transformer
+  - bcrypt (Password hashing)
+  - node-cron (Scheduled tasks)
+
+DevOps & Tools:
+  - Git & GitHub
+  - PM2 (Process management)
+  - Let's Encrypt (SSL)
+  - Nginx (Reverse proxy)
+
+================================================================================
+PROJECT STRUCTURE
+================================================================================
+
+dr-haiat-hms/
+│
+├── packages/
+│   └── shared-types/
+│       ├── package.json
+│       ├── tsconfig.json
+│       └── src/
+│           ├── index.ts
+│           ├── patient.types.ts
+│           ├── billing.types.ts
+│           ├── opd.types.ts
+│           ├── ipd.types.ts
+│           ├── inventory.types.ts
+│           ├── staff.types.ts
+│           ├── lab.types.ts
+│           ├── ot.types.ts
+│           ├── prescription.types.ts
+│           ├── user.types.ts
+│           └── common.types.ts
+│
+├── backend/
+│   ├── src/
+│   │   ├── modules/
+│   │   │   ├── auth/
+│   │   │   │   ├── auth.controller.ts
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── auth.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── login.dto.ts
+│   │   │   │   │   ├── register.dto.ts
+│   │   │   │   │   └── change-password.dto.ts
+│   │   │   │   ├── guards/
+│   │   │   │   │   ├── jwt-auth.guard.ts
+│   │   │   │   │   └── roles.guard.ts
+│   │   │   │   └── strategies/
+│   │   │   │       └── jwt.strategy.ts
+│   │   │   │
+│   │   │   ├── users/
+│   │   │   │   ├── users.controller.ts
+│   │   │   │   ├── users.service.ts
+│   │   │   │   ├── users.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-user.dto.ts
+│   │   │   │   │   └── update-user.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       └── user.entity.ts
+│   │   │   │
+│   │   │   ├── patients/
+│   │   │   │   ├── patients.controller.ts
+│   │   │   │   ├── patients.service.ts
+│   │   │   │   ├── patients.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-patient.dto.ts
+│   │   │   │   │   ├── update-patient.dto.ts
+│   │   │   │   │   └── search-patient.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       └── patient.entity.ts
+│   │   │   │
+│   │   │   ├── opd/
+│   │   │   │   ├── opd.controller.ts
+│   │   │   │   ├── opd.service.ts
+│   │   │   │   ├── opd.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-opd-visit.dto.ts
+│   │   │   │   │   └── opd-billing.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       └── opd-visit.entity.ts
+│   │   │   │
+│   │   │   ├── ipd/
+│   │   │   │   ├── ipd.controller.ts
+│   │   │   │   ├── ipd.service.ts
+│   │   │   │   ├── ipd.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── admit-patient.dto.ts
+│   │   │   │   │   ├── discharge-patient.dto.ts
+│   │   │   │   │   └── transfer-patient.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── admission.entity.ts
+│   │   │   │       └── bed.entity.ts
+│   │   │   │
+│   │   │   ├── billing/
+│   │   │   │   ├── billing.controller.ts
+│   │   │   │   ├── billing.service.ts
+│   │   │   │   ├── billing.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-invoice.dto.ts
+│   │   │   │   │   ├── payment.dto.ts
+│   │   │   │   │   └── refund.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── invoice.entity.ts
+│   │   │   │       └── payment.entity.ts
+│   │   │   │
+│   │   │   ├── laboratory/
+│   │   │   │   ├── laboratory.controller.ts
+│   │   │   │   ├── laboratory.service.ts
+│   │   │   │   ├── laboratory.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-test.dto.ts
+│   │   │   │   │   ├── test-result.dto.ts
+│   │   │   │   │   └── test-category.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── test.entity.ts
+│   │   │   │       ├── test-result.entity.ts
+│   │   │   │       └── test-category.entity.ts
+│   │   │   │
+│   │   │   ├── radiology/
+│   │   │   │   ├── radiology.controller.ts
+│   │   │   │   ├── radiology.service.ts
+│   │   │   │   ├── radiology.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   └── usg-report.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       └── radiology-report.entity.ts
+│   │   │   │
+│   │   │   ├── operation-theatre/
+│   │   │   │   ├── ot.controller.ts
+│   │   │   │   ├── ot.service.ts
+│   │   │   │   ├── ot.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── book-ot.dto.ts
+│   │   │   │   │   ├── ot-procedure.dto.ts
+│   │   │   │   │   └── post-op-care.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── ot-booking.entity.ts
+│   │   │   │       └── ot-procedure.entity.ts
+│   │   │   │
+│   │   │   ├── prescriptions/
+│   │   │   │   ├── prescriptions.controller.ts
+│   │   │   │   ├── prescriptions.service.ts
+│   │   │   │   ├── prescriptions.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-prescription.dto.ts
+│   │   │   │   │   └── prescription-template.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── prescription.entity.ts
+│   │   │   │       └── prescription-item.entity.ts
+│   │   │   │
+│   │   │   ├── inventory/
+│   │   │   │   ├── inventory.controller.ts
+│   │   │   │   ├── inventory.service.ts
+│   │   │   │   ├── inventory.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── add-medicine.dto.ts
+│   │   │   │   │   ├── stock-adjustment.dto.ts
+│   │   │   │   │   └── purchase-order.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── medicine.entity.ts
+│   │   │   │       ├── stock.entity.ts
+│   │   │   │       └── supplier.entity.ts
+│   │   │   │
+│   │   │   ├── staff/
+│   │   │   │   ├── staff.controller.ts
+│   │   │   │   ├── staff.service.ts
+│   │   │   │   ├── staff.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-staff.dto.ts
+│   │   │   │   │   └── update-staff.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       └── staff.entity.ts
+│   │   │   │
+│   │   │   ├── doctors/
+│   │   │   │   ├── doctors.controller.ts
+│   │   │   │   ├── doctors.service.ts
+│   │   │   │   ├── doctors.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── create-doctor.dto.ts
+│   │   │   │   │   └── doctor-schedule.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── doctor.entity.ts
+│   │   │   │       └── doctor-schedule.entity.ts
+│   │   │   │
+│   │   │   ├── hr-payroll/
+│   │   │   │   ├── payroll.controller.ts
+│   │   │   │   ├── payroll.service.ts
+│   │   │   │   ├── payroll.module.ts
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── salary-sheet.dto.ts
+│   │   │   │   │   ├── attendance.dto.ts
+│   │   │   │   │   └── leave.dto.ts
+│   │   │   │   └── entities/
+│   │   │   │       ├── salary.entity.ts
+│   │   │   │       ├── attendance.entity.ts
+│   │   │   │       └── leave.entity.ts
+│   │   │   │
+│   │   │   ├── reports/
+│   │   │   │   ├── reports.controller.ts
+│   │   │   │   ├── reports.service.ts
+│   │   │   │   └── reports.module.ts
+│   │   │   │
+│   │   │   ├── notifications/
+│   │   │   │   ├── notifications.controller.ts
+│   │   │   │   ├── notifications.service.ts
+│   │   │   │   ├── notifications.module.ts
+│   │   │   │   ├── sms.service.ts
+│   │   │   │   └── email.service.ts
+│   │   │   │
+│   │   │   └── activity-logs/
+│   │   │       ├── activity-logs.controller.ts
+│   │   │       ├── activity-logs.service.ts
+│   │   │       ├── activity-logs.module.ts
+│   │   │       └── entities/
+│   │   │           └── activity-log.entity.ts
+│   │   │
+│   │   ├── common/
+│   │   │   ├── decorators/
+│   │   │   │   ├── roles.decorator.ts
+│   │   │   │   ├── current-user.decorator.ts
+│   │   │   │   └── activity-log.decorator.ts
+│   │   │   ├── filters/
+│   │   │   │   └── http-exception.filter.ts
+│   │   │   ├── guards/
+│   │   │   │   └── roles.guard.ts
+│   │   │   ├── interceptors/
+│   │   │   │   ├── logging.interceptor.ts
+│   │   │   │   └── transform.interceptor.ts
+│   │   │   ├── pipes/
+│   │   │   │   └── validation.pipe.ts
+│   │   │   └── middleware/
+│   │   │       └── logger.middleware.ts
+│   │   │
+│   │   ├── config/
+│   │   │   ├── app.config.ts
+│   │   │   ├── database.config.ts
+│   │   │   ├── jwt.config.ts
+│   │   │   └── redis.config.ts
+│   │   │
+│   │   ├── prisma/
+│   │   │   ├── schema.prisma
+│   │   │   ├── seed.ts
+│   │   │   └── migrations/
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── id-generator.util.ts
+│   │   │   ├── pdf-generator.util.ts
+│   │   │   ├── barcode-generator.util.ts
+│   │   │   └── date.util.ts
+│   │   │
+│   │   ├── app.module.ts
+│   │   ├── app.controller.ts
+│   │   ├── app.service.ts
+│   │   └── main.ts
+│   │
+│   ├── test/
+│   ├── .env
+│   ├── .env.example
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── nest-cli.json
+│
+└── frontend/
+    ├── public/
+    │   ├── favicon.ico
+    │   └── logo.png
+    │
+    ├── src/
+    │   ├── features/
+    │   │   ├── auth/
+    │   │   │   ├── api/
+    │   │   │   │   └── useAuth.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── LoginForm.tsx
+    │   │   │   │   └── ChangePasswordForm.tsx
+    │   │   │   └── pages/
+    │   │   │       └── LoginPage.tsx
+    │   │   │
+    │   │   ├── dashboard/
+    │   │   │   ├── components/
+    │   │   │   │   ├── StatCard.tsx
+    │   │   │   │   ├── RecentPatients.tsx
+    │   │   │   │   └── DailyRevenueChart.tsx
+    │   │   │   └── pages/
+    │   │   │       └── DashboardPage.tsx
+    │   │   │
+    │   │   ├── patients/
+    │   │   │   ├── api/
+    │   │   │   │   └── usePatients.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── PatientList.tsx
+    │   │   │   │   ├── PatientForm.tsx
+    │   │   │   │   ├── PatientDetails.tsx
+    │   │   │   │   └── PatientSearch.tsx
+    │   │   │   └── pages/
+    │   │   │       ├── PatientsPage.tsx
+    │   │   │       ├── AddPatientPage.tsx
+    │   │   │       └── PatientDetailsPage.tsx
+    │   │   │
+    │   │   ├── opd/
+    │   │   │   ├── api/
+    │   │   │   │   └── useOPD.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── OPDVisitForm.tsx
+    │   │   │   │   ├── OPDQueue.tsx
+    │   │   │   │   └── OPDInvoice.tsx
+    │   │   │   └── pages/
+    │   │   │       └── OPDPage.tsx
+    │   │   │
+    │   │   ├── ipd/
+    │   │   │   ├── api/
+    │   │   │   │   └── useIPD.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── AdmissionForm.tsx
+    │   │   │   │   ├── BedManagement.tsx
+    │   │   │   │   ├── DischargeForm.tsx
+    │   │   │   │   └── IPDPatientCard.tsx
+    │   │   │   └── pages/
+    │   │   │       ├── IPDPage.tsx
+    │   │   │       └── BedManagementPage.tsx
+    │   │   │
+    │   │   ├── billing/
+    │   │   │   ├── api/
+    │   │   │   │   └── useBilling.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── InvoiceForm.tsx
+    │   │   │   │   ├── PaymentForm.tsx
+    │   │   │   │   ├── DuesTable.tsx
+    │   │   │   │   └── InvoicePrint.tsx
+    │   │   │   └── pages/
+    │   │   │       ├── BillingPage.tsx
+    │   │   │       └── DuesPage.tsx
+    │   │   │
+    │   │   ├── laboratory/
+    │   │   │   ├── api/
+    │   │   │   │   └── useLab.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── TestRequestForm.tsx
+    │   │   │   │   ├── TestResultForm.tsx
+    │   │   │   │   └── LabReportPrint.tsx
+    │   │   │   └── pages/
+    │   │   │       └── LaboratoryPage.tsx
+    │   │   │
+    │   │   ├── radiology/
+    │   │   │   ├── api/
+    │   │   │   │   └── useRadiology.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── USGReportForm.tsx
+    │   │   │   │   └── RadiologyReportPrint.tsx
+    │   │   │   └── pages/
+    │   │   │       └── RadiologyPage.tsx
+    │   │   │
+    │   │   ├── operation-theatre/
+    │   │   │   ├── api/
+    │   │   │   │   └── useOT.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── OTBookingForm.tsx
+    │   │   │   │   ├── OTSchedule.tsx
+    │   │   │   │   └── PostOpCareForm.tsx
+    │   │   │   └── pages/
+    │   │   │       └── OTPage.tsx
+    │   │   │
+    │   │   ├── prescriptions/
+    │   │   │   ├── api/
+    │   │   │   │   └── usePrescriptions.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── PrescriptionForm.tsx
+    │   │   │   │   ├── PrescriptionTemplate.tsx
+    │   │   │   │   └── PrescriptionPrint.tsx
+    │   │   │   └── pages/
+    │   │   │       └── PrescriptionsPage.tsx
+    │   │   │
+    │   │   ├── inventory/
+    │   │   │   ├── api/
+    │   │   │   │   └── useInventory.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── MedicineList.tsx
+    │   │   │   │   ├── StockAdjustment.tsx
+    │   │   │   │   ├── PurchaseOrderForm.tsx
+    │   │   │   │   └── LowStockAlert.tsx
+    │   │   │   └── pages/
+    │   │   │       └── InventoryPage.tsx
+    │   │   │
+    │   │   ├── staff/
+    │   │   │   ├── api/
+    │   │   │   │   └── useStaff.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── StaffList.tsx
+    │   │   │   │   └── StaffForm.tsx
+    │   │   │   └── pages/
+    │   │   │       └── StaffPage.tsx
+    │   │   │
+    │   │   ├── doctors/
+    │   │   │   ├── api/
+    │   │   │   │   └── useDoctors.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── DoctorList.tsx
+    │   │   │   │   ├── DoctorForm.tsx
+    │   │   │   │   └── DoctorSchedule.tsx
+    │   │   │   └── pages/
+    │   │   │       └── DoctorsPage.tsx
+    │   │   │
+    │   │   ├── hr-payroll/
+    │   │   │   ├── api/
+    │   │   │   │   └── usePayroll.ts
+    │   │   │   ├── components/
+    │   │   │   │   ├── AttendanceTable.tsx
+    │   │   │   │   ├── SalarySheet.tsx
+    │   │   │   │   └── LeaveManagement.tsx
+    │   │   │   └── pages/
+    │   │   │       ├── PayrollPage.tsx
+    │   │   │       └── AttendancePage.tsx
+    │   │   │
+    │   │   └── reports/
+    │   │       ├── api/
+    │   │       │   └── useReports.ts
+    │   │       ├── components/
+    │   │       │   ├── DailyReport.tsx
+    │   │       │   ├── MonthlyReport.tsx
+    │   │       │   └── CustomReport.tsx
+    │   │       └── pages/
+    │   │           └── ReportsPage.tsx
+    │   │
+    │   ├── components/
+    │   │   ├── common/
+    │   │   │   ├── Button.tsx
+    │   │   │   ├── Input.tsx
+    │   │   │   ├── Select.tsx
+    │   │   │   ├── Modal.tsx
+    │   │   │   ├── Table.tsx
+    │   │   │   ├── Pagination.tsx
+    │   │   │   ├── DatePicker.tsx
+    │   │   │   ├── SearchBar.tsx
+    │   │   │   └── LoadingSpinner.tsx
+    │   │   │
+    │   │   └── layout/
+    │   │       ├── Layout.tsx
+    │   │       ├── Sidebar.tsx
+    │   │       ├── Header.tsx
+    │   │       ├── Footer.tsx
+    │   │       └── Breadcrumbs.tsx
+    │   │
+    │   ├── hooks/
+    │   │   ├── useAuth.ts
+    │   │   ├── usePermissions.ts
+    │   │   ├── useDebounce.ts
+    │   │   └── useLocalStorage.ts
+    │   │
+    │   ├── lib/
+    │   │   ├── api.ts
+    │   │   ├── queryClient.ts
+    │   │   └── constants.ts
+    │   │
+    │   ├── routes/
+    │   │   ├── AppRoutes.tsx
+    │   │   ├── PrivateRoute.tsx
+    │   │   └── RoleBasedRoute.tsx
+    │   │
+    │   ├── store/
+    │   │   ├── authStore.ts
+    │   │   └── uiStore.ts
+    │   │
+    │   ├── types/
+    │   │   └── index.ts
+    │   │
+    │   ├── utils/
+    │   │   ├── permissions.ts
+    │   │   ├── formatters.ts
+    │   │   ├── validators.ts
+    │   │   └── date.ts
+    │   │
+    │   ├── styles/
+    │   │   └── index.css
+    │   │
+    │   ├── App.tsx
+    │   ├── main.tsx
+    │   └── vite-env.d.ts
+    │
+    ├── .env
+    ├── .env.example
+    ├── package.json
+    ├── tsconfig.json
+    ├── vite.config.ts
+    ├── tailwind.config.js
+    └── postcss.config.js
+
+================================================================================
+DATABASE SCHEMA (PRISMA)
+================================================================================
+
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============= USER MANAGEMENT =============
+
+enum UserRole {
+  ADMINISTRATOR
+  CHAIRMAN
+  MANAGER
+  RECEPTIONIST
+  DOCTOR
+  NURSE
+  LAB_TECHNICIAN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  username      String    @unique
+  password      String
+  name          String
+  role          UserRole
+  phone         String?
+  isActive      Boolean   @default(true)
+  lastLogin     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  activityLogs  ActivityLog[]
+  createdInvoices Invoice[] @relation("InvoiceCreator")
+  createdPayments Payment[] @relation("PaymentCreator")
+  
+  @@map("users")
+}
+
+// ============= PATIENT MANAGEMENT =============
+
+model Patient {
+  id              String    @id @default(uuid())
+  patientId       String    @unique  // PID-0001
+  name            String
+  age             Int
+  gender          Gender
+  phone           String
+  email           String?
+  address         String
+  bloodGroup      String?
+  emergencyContact String?
+  allergies       String?
+  chronicDiseases String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  opdVisits       OPDVisit[]
+  admissions      Admission[]
+  prescriptions   Prescription[]
+  invoices        Invoice[]
+  labTests        LabTest[]
+  radiologyTests  RadiologyTest[]
+  
+  @@map("patients")
+}
+
+// ============= OPD MANAGEMENT =============
+
+model OPDVisit {
+  id              String    @id @default(uuid())
+  visitId         String    @unique  // OPD-0001
+  patientId       String
+  doctorId        String
+  visitDate       DateTime  @default(now())
+  chiefComplaint  String
+  symptoms        String?
+  diagnosis       String?
+  notes           String?
+  followUpDate    DateTime?
+  status          String    @default("pending") // pending, completed, cancelled
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  patient         Patient   @relation(fields: [patientId], references: [id])
+  doctor          Doctor    @relation(fields: [doctorId], references: [id])
+  prescriptions   Prescription[]
+  
+  @@map("opd_visits")
+}
+
+// ============= IPD MANAGEMENT =============
+
+enum BedType {
+  CABIN
+  WARD
+}
+
+enum BedStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+}
+
+model Bed {
+  id          String      @id @default(uuid())
+  bedNumber   String      @unique
+  bedType     BedType
+  status      BedStatus   @default(AVAILABLE)
+  floor       String?
+  roomNumber  String?
+  capacity    Int         @default(1)  // For ward beds
+  pricePerDay Decimal     @db.Decimal(10, 2)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  // Relations
+  admissions  Admission[]
+  
+  @@map("beds")
+}
+
+enum AdmissionStatus {
+  ADMITTED
+  DISCHARGED
+  TRANSFERRED
+}
+
+model Admission {
+  id                String          @id @default(uuid())
+  admissionId       String          @unique  // IPD-0001
+  patientId         String
+  bedId             String
+  doctorId          String
+  admissionDate     DateTime        @default(now())
+  dischargeDate     DateTime?
+  status            AdmissionStatus @default(ADMITTED)
+  admissionReason   String
+  diagnosis         String?
+  treatmentPlan     String?
+  dischargeNotes    String?
+  totalBill         Decimal?        @db.Decimal(10, 2)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  
+  // Relations
+  patient           Patient         @relation(fields: [patientId], references: [id])
+  bed               Bed             @relation(fields: [bedId], references: [id])
+  doctor            Doctor          @relation(fields: [doctorId], references: [id])
+  prescriptions     Prescription[]
+  
+  @@map("admissions")
+}
+
+// ============= DOCTOR MANAGEMENT =============
+
+enum DoctorSpecialization {
+  GYNECOLOGY
+  OBSTETRICS
+  GENERAL
+  OTHER
+}
+
+model Doctor {
+  id                String                @id @default(uuid())
+  doctorId          String                @unique  // DOC-0001
+  name              String
+  specialization    DoctorSpecialization
+  qualification     String
+  bmdc              String?               // Bangladesh Medical & Dental Council
+  phone             String
+  email             String?
+  consultationFee   Decimal               @db.Decimal(10, 2)
+  isActive          Boolean               @default(true)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  
+  // Relations
+  schedules         DoctorSchedule[]
+  opdVisits         OPDVisit[]
+  admissions        Admission[]
+  prescriptions     Prescription[]
+  otProcedures      OTBooking[]
+  
+  @@map("doctors")
+}
+
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+model DoctorSchedule {
+  id          String      @id @default(uuid())
+  doctorId    String
+  dayOfWeek   DayOfWeek
+  startTime   String      // "09:00"
+  endTime     String      // "13:00"
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  // Relations
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+  
+  @@map("doctor_schedules")
+}
+
+// ============= PRESCRIPTION MANAGEMENT =============
+
+model Prescription {
+  id                String    @id @default(uuid())
+  prescriptionId    String    @unique  // PRX-0001
+  patientId         String
+  doctorId          String
+  opdVisitId        String?
+  admissionId       String?
+  prescriptionDate  DateTime  @default(now())
+  diagnosis         String?
+  notes             String?
+  nextVisitDate     DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relations
+  patient           Patient       @relation(fields: [patientId], references: [id])
+  doctor            Doctor        @relation(fields: [doctorId], references: [id])
+  opdVisit          OPDVisit?     @relation(fields: [opdVisitId], references: [id])
+  admission         Admission?    @relation(fields: [admissionId], references: [id])
+  items             PrescriptionItem[]
+  
+  @@map("prescriptions")
+}
+
+model PrescriptionItem {
+  id              String        @id @default(uuid())
+  prescriptionId  String
+  medicineId      String?
+  medicineName    String
+  dosage          String        // "1-0-1"
+  duration        String        // "7 days"
+  instructions    String?
+  createdAt       DateTime      @default(now())
+  
+  // Relations
+  prescription    Prescription  @relation(fields: [prescriptionId], references: [id])
+  medicine        Medicine?     @relation(fields: [medicineId], references: [id])
+  
+  @@map("prescription_items")
+}
+
+// ============= INVENTORY MANAGEMENT =============
+
+model Medicine {
+  id                String              @id @default(uuid())
+  medicineCode      String              @unique  // MED-0001
+  name              String
+  genericName       String?
+  brandName         String?
+  strength          String?             // "500mg"
+  type              String              // "Tablet", "Syrup", "Injection"
+  manufacturer      String?
+  unitPrice         Decimal             @db.Decimal(10, 2)
+  reorderLevel      Int                 @default(10)
+  isActive          Boolean             @default(true)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  // Relations
+  stocks            Stock[]
+  prescriptionItems PrescriptionItem[]
+  
+  @@map("medicines")
+}
+
+model Stock {
+  id                String    @id @default(uuid())
+  medicineId        String
+  quantity          Int
+  expiryDate        DateTime?
+  batchNumber       String?
+  purchasePrice     Decimal   @db.Decimal(10, 2)
+  sellingPrice      Decimal   @db.Decimal(10, 2)
+  supplierId        String?
+  purchaseDate      DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relations
+  medicine          Medicine  @relation(fields: [medicineId], references: [id])
+  supplier          Supplier? @relation(fields: [supplierId], references: [id])
+  
+  @@map("stocks")
+}
+
+model Supplier {
+  id              String    @id @default(uuid())
+  supplierId      String    @unique  // SUP-0001
+  name            String
+  contactPerson   String?
+  phone           String
+  email           String?
+  address         String?
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  stocks          Stock[]
+  
+  @@map("suppliers")
+}
+
+// ============= LABORATORY MANAGEMENT =============
+
+model TestCategory {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Relations
+  tests       Test[]
+  
+  @@map("test_categories")
+}
+
+model Test {
+  id            String        @id @default(uuid())
+  testCode      String        @unique  // TST-0001
+  name          String
+  categoryId    String
+  price         Decimal       @db.Decimal(10, 2)
+  normalRange   String?
+  unit          String?
+  description   String?
+  reportFormat  String?       // JSON template for report
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relations
+  category      TestCategory  @relation(fields: [categoryId], references: [id])
+  labTests      LabTest[]
+  
+  @@map("tests")
+}
+
+enum TestStatus {
+  PENDING
+  SAMPLE_COLLECTED
+  IN_PROGRESS
+  COMPLETED
+  DELIVERED
+}
+
+model LabTest {
+  id              String      @id @default(uuid())
+  labTestId       String      @unique  // LAB-0001
+  patientId       String
+  testId          String
+  invoiceId       String?
+  requestDate     DateTime    @default(now())
+  sampleDate      DateTime?
+  resultDate      DateTime?
+  deliveryDate    DateTime?
+  status          TestStatus  @default(PENDING)
+  result          String?     // JSON format
+  remarks         String?
+  technicianName  String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  patient         Patient     @relation(fields: [patientId], references: [id])
+  test            Test        @relation(fields: [testId], references: [id])
+  invoice         Invoice?    @relation(fields: [invoiceId], references: [id])
+  
+  @@map("lab_tests")
+}
+
+// ============= RADIOLOGY MANAGEMENT =============
+
+enum RadiologyType {
+  USG
+  XRAY
+  CT
+  MRI
+}
+
+model RadiologyTest {
+  id              String        @id @default(uuid())
+  testId          String        @unique  // RAD-0001
+  patientId       String
+  type            RadiologyType
+  testName        String
+  price           Decimal       @db.Decimal(10, 2)
+  invoiceId       String?
+  requestDate     DateTime      @default(now())
+  performedDate   DateTime?
+  reportDate      DateTime?
+  status          TestStatus    @default(PENDING)
+  findings        String?
+  impression      String?
+  radiologistName String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  patient         Patient       @relation(fields: [patientId], references: [id])
+  invoice         Invoice?      @relation(fields: [invoiceId], references: [id])
+  
+  @@map("radiology_tests")
+}
+
+// ============= OPERATION THEATRE MANAGEMENT =============
+
+enum OTStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model OTBooking {
+  id                String      @id @default(uuid())
+  bookingId         String      @unique  // OT-0001
+  patientId         String
+  doctorId          String
+  scheduledDate     DateTime
+  scheduledTime     String
+  procedureName     String
+  procedureType     String
+  anesthesiaType    String?
+  estimatedDuration Int?        // in minutes
+  status            OTStatus    @default(SCHEDULED)
+  actualStartTime   DateTime?
+  actualEndTime     DateTime?
+  notes             String?
+  cost              Decimal?    @db.Decimal(10, 2)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  // Relations
+  patient           Patient @relation(fields: [patientId], references: [id])
+  doctor            Doctor  @relation(fields: [doctorId], references: [id])
+  
+  @@map("ot_bookings")
+}
+
+model Patient {
+  // ... existing fields ...
+  otBookings      OTBooking[]
+}
+
+// ============= BILLING & ACCOUNTS =============
+
+enum InvoiceType {
+  OPD
+  IPD
+  LAB
+  RADIOLOGY
+  OT
+  OTHER
+}
+
+enum InvoiceStatus {
+  PENDING
+  PARTIAL
+  PAID
+  CANCELLED
+}
+
+model Invoice {
+  id              String          @id @default(uuid())
+  invoiceId       String          @unique  // INV-0001
+  patientId       String
+  invoiceType     InvoiceType
+  invoiceDate     DateTime        @default(now())
+  totalAmount     Decimal         @db.Decimal(10, 2)
+  discount        Decimal         @default(0) @db.Decimal(10, 2)
+  netAmount       Decimal         @db.Decimal(10, 2)
+  paidAmount      Decimal         @default(0) @db.Decimal(10, 2)
+  dueAmount       Decimal         @db.Decimal(10, 2)
+  status          InvoiceStatus   @default(PENDING)
+  createdById     String
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  // Relations
+  patient         Patient         @relation(fields: [patientId], references: [id])
+  createdBy       User            @relation("InvoiceCreator", fields: [createdById], references: [id])
+  items           InvoiceItem[]
+  payments        Payment[]
+  labTests        LabTest[]
+  radiologyTests  RadiologyTest[]
+  
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id            String    @id @default(uuid())
+  invoiceId     String
+  description   String
+  quantity      Int       @default(1)
+  unitPrice     Decimal   @db.Decimal(10, 2)
+  totalPrice    Decimal   @db.Decimal(10, 2)
+  createdAt     DateTime  @default(now())
+  
+  // Relations
+  invoice       Invoice   @relation(fields: [invoiceId], references: [id])
+  
+  @@map("invoice_items")
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  BANK_TRANSFER
+  MOBILE_BANKING
+}
+
+model Payment {
+  id              String          @id @default(uuid())
+  paymentId       String          @unique  // PAY-0001
+  invoiceId       String
+  amount          Decimal         @db.Decimal(10, 2)
+  paymentMethod   PaymentMethod
+  paymentDate     DateTime        @default(now())
+  receivedById    String
+  transactionRef  String?
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  // Relations
+  invoice         Invoice         @relation(fields: [invoiceId], references: [id])
+  receivedBy      User            @relation("PaymentCreator", fields: [receivedById], references: [id])
+  
+  @@map("payments")
+}
+
+// ============= STAFF & HR MANAGEMENT =============
+
+enum StaffType {
+  NURSE
+  LAB_TECHNICIAN
+  RECEPTIONIST
+  MANAGER
+  GUARD
+  CLEANER
+  OTHER
+}
+
+model Staff {
+  id              String      @id @default(uuid())
+  staffId         String      @unique  // STF-0001
+  name            String
+  staffType       StaffType
+  phone           String
+  email           String?
+  address         String?
+  joiningDate     DateTime
+  salary          Decimal     @db.Decimal(10, 2)
+  isActive        Boolean     @default(true)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  attendances     Attendance[]
+  salaryRecords   SalaryRecord[]
+  leaves          Leave[]
+  
+  @@map("staff")
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  HALF_DAY
+  LEAVE
+}
+
+model Attendance {
+  id          String            @id @default(uuid())
+  staffId     String
+  date        DateTime          @db.Date
+  status      AttendanceStatus
+  checkIn     DateTime?
+  checkOut    DateTime?
+  notes       String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  // Relations
+  staff       Staff             @relation(fields: [staffId], references: [id])
+  
+  @@unique([staffId, date])
+  @@map("attendances")
+}
+
+model SalaryRecord {
+  id              String    @id @default(uuid())
+  staffId         String
+  month           String    // "2024-01"
+  basicSalary     Decimal   @db.Decimal(10, 2)
+  allowances      Decimal   @default(0) @db.Decimal(10, 2)
+  deductions      Decimal   @default(0) @db.Decimal(10, 2)
+  netSalary       Decimal   @db.Decimal(10, 2)
+  paymentDate     DateTime?
+  paymentStatus   String    @default("pending") // pending, paid
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  staff           Staff     @relation(fields: [staffId], references: [id])
+  
+  @@unique([staffId, month])
+  @@map("salary_records")
+}
+
+enum LeaveType {
+  SICK
+  CASUAL
+  ANNUAL
+  MATERNITY
+  OTHER
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Leave {
+  id          String        @id @default(uuid())
+  staffId     String
+  leaveType   LeaveType
+  startDate   DateTime      @db.Date
+  endDate     DateTime      @db.Date
+  totalDays   Int
+  reason      String
+  status      LeaveStatus   @default(PENDING)
+  approvedBy  String?
+  approvedAt  DateTime?
+  notes       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  staff       Staff         @relation(fields: [staffId], references: [id])
+  
+  @@map("leaves")
+}
+
+// ============= ACTIVITY LOGS =============
+
+model ActivityLog {
+  id          String    @id @default(uuid())
+  userId      String
+  action      String
+  module      String
+  description String?
+  metadata    String?   // JSON
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  user        User      @relation(fields: [userId], references: [id])
+  
+  @@map("activity_logs")
+}
+
+================================================================================
+CODE EXAMPLES
+================================================================================
+
+// ============= BACKEND: USER AUTHENTICATION =============
+
+// src/modules/auth/dto/login.dto.ts
+import { IsString, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class LoginDto {
+  @ApiProperty({ example: 'admin' })
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+
+  @ApiProperty({ example: 'password123' })
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
+
+// src/modules/auth/auth.controller.ts
+import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+
+@ApiTags('Authentication')
+@Controller('api/v1/auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('login')
+  @ApiOperation({ summary: 'User login' })
+  async login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
+  }
+
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'User logout' })
+  async logout(@Request() req) {
+    return { message: 'Logged out successfully' };
+  }
+
+  @Post('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current user' })
+  async me(@Request() req) {
+    return req.user;
+  }
+}
+
+// src/modules/auth/auth.service.ts
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from '../../prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
+import { LoginDto } from './dto/login.dto';
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
+
+  async login(loginDto: LoginDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { username: loginDto.username },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      loginDto.password,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (!user.isActive) {
+      throw new UnauthorizedException('Account is inactive');
+    }
+
+    // Update last login
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { lastLogin: new Date() },
+    });
+
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      role: user.role,
+    };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+      user: {
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    };
+  }
+
+  async validateUser(userId: string) {
+    return this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        email: true,
+        role: true,
+        isActive: true,
+      },
+    });
+  }
+}
+
+// ============= BACKEND: PATIENT MANAGEMENT =============
+
+// src/modules/patients/dto/create-patient.dto.ts
+import { IsString, IsInt, IsEnum, IsOptional, IsEmail } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { Gender } from '@prisma/client';
+
+export class CreatePatientDto {
+  @ApiProperty()
+  @IsString()
+  name: string;
+
+  @ApiProperty()
+  @IsInt()
+  age: number;
+
+  @ApiProperty({ enum: Gender })
+  @IsEnum(Gender)
+  gender: Gender;
+
+  @ApiProperty()
+  @IsString()
+  phone: string;
+
+  @ApiProperty({ required: false })
+  @IsEmail()
+  @IsOptional()
+  email?: string;
+
+  @ApiProperty()
+  @IsString()
+  address: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  bloodGroup?: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  emergencyContact?: string;
+}
+
+// src/modules/patients/patients.service.ts
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CreatePatientDto } from './dto/create-patient.dto';
+
+@Injectable()
+export class PatientsService {
+  constructor(private prisma: PrismaService) {}
+
+  async create(createPatientDto: CreatePatientDto) {
+    // Generate unique patient ID
+    const lastPatient = await this.prisma.patient.findFirst({
+      orderBy: { createdAt: 'desc' },
+      select: { patientId: true },
+    });
+
+    const nextNumber = lastPatient
+      ? parseInt(lastPatient.patientId.split('-')[1]) + 1
+      : 1;
+
+    const patientId = `PID-${nextNumber.toString().padStart(4, '0')}`;
+
+    return this.prisma.patient.create({
+      data: {
+        ...createPatientDto,
+        patientId,
+      },
+    });
+  }
+
+  async findAll(page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const [patients, total] = await Promise.all([
+      this.prisma.patient.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.patient.count(),
+    ]);
+
+    return {
+      data: patients,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async findOne(id: string) {
+    const patient = await this.prisma.patient.findUnique({
+      where: { id },
+      include: {
+        opdVisits: {
+          include: { doctor: true },
+          orderBy: { visitDate: 'desc' },
+          take: 5,
+        },
+        admissions: {
+          include: { doctor: true, bed: true },
+          orderBy: { admissionDate: 'desc' },
+          take: 5,
+        },
+        prescriptions: {
+          include: { doctor: true },
+          orderBy: { prescriptionDate: 'desc' },
+          take: 5,
+        },
+      },
+    });
+
+    if (!patient) {
+      throw new NotFoundException('Patient not found');
+    }
+
+    return patient;
+  }
+
+  async search(query: string) {
+    return this.prisma.patient.findMany({
+      where: {
+        OR: [
+          { patientId: { contains: query, mode: 'insensitive' } },
+          { name: { contains: query, mode: 'insensitive' } },
+          { phone: { contains: query } },
+        ],
+      },
+      take: 10,
+    });
+  }
+}
+
+// ============= BACKEND: INVOICE & BILLING =============
+
+// src/modules/billing/dto/create-invoice.dto.ts
+import { IsString, IsEnum, IsArray, IsNumber, IsOptional, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { InvoiceType } from '@prisma/client';
+
+class InvoiceItemDto {
+  @ApiProperty()
+  @IsString()
+  description: string;
+
+  @ApiProperty()
+  @IsNumber()
+  quantity: number;
+
+  @ApiProperty()
+  @IsNumber()
+  unitPrice: number;
+}
+
+export class CreateInvoiceDto {
+  @ApiProperty()
+  @IsString()
+  patientId: string;
+
+  @ApiProperty({ enum: InvoiceType })
+  @IsEnum(InvoiceType)
+  invoiceType: InvoiceType;
+
+  @ApiProperty({ type: [InvoiceItemDto] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => InvoiceItemDto)
+  items: InvoiceItemDto[];
+
+  @ApiProperty({ required: false })
+  @IsNumber()
+  @IsOptional()
+  discount?: number;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  notes?: string;
+}
+
+// src/modules/billing/billing.service.ts
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CreateInvoiceDto } from './dto/create-invoice.dto';
+import { InvoiceStatus } from '@prisma/client';
+
+@Injectable()
+export class BillingService {
+  constructor(private prisma: PrismaService) {}
+
+  async createInvoice(dto: CreateInvoiceDto, userId: string) {
+    // Generate invoice ID
+    const lastInvoice = await this.prisma.invoice.findFirst({
+      orderBy: { createdAt: 'desc' },
+      select: { invoiceId: true },
+    });
+
+    const nextNumber = lastInvoice
+      ? parseInt(lastInvoice.invoiceId.split('-')[1]) + 1
+      : 1;
+
+    const invoiceId = `INV-${nextNumber.toString().padStart(4, '0')}`;
+
+    // Calculate totals
+    const totalAmount = dto.items.reduce(
+      (sum, item) => sum + item.quantity * item.unitPrice,
+      0,
+    );
+    const discount = dto.discount || 0;
+    const netAmount = totalAmount - discount;
+
+    return this.prisma.invoice.create({
+      data: {
+        invoiceId,
+        patientId: dto.patientId,
+        invoiceType: dto.invoiceType,
+        totalAmount,
+        discount,
+        netAmount,
+        dueAmount: netAmount,
+        status: InvoiceStatus.PENDING,
+        createdById: userId,
+        notes: dto.notes,
+        items: {
+          create: dto.items.map((item) => ({
+            description: item.description,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            totalPrice: item.quantity * item.unitPrice,
+          })),
+        },
+      },
+      include: {
+        items: true,
+        patient: true,
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            role: true,
+          },
+        },
+      },
+    });
+  }
+
+  async addPayment(invoiceId: string, amount: number, method: string, userId: string) {
+    const invoice = await this.prisma.invoice.findUnique({
+      where: { id: invoiceId },
+    });
+
+    if (!invoice) {
+      throw new NotFoundException('Invoice not found');
+    }
+
+    // Generate payment ID
+    const lastPayment = await this.prisma.payment.findFirst({
+      orderBy: { createdAt: 'desc' },
+      select: { paymentId: true },
+    });
+
+    const nextNumber = lastPayment
+      ? parseInt(lastPayment.paymentId.split('-')[1]) + 1
+      : 1;
+
+    const paymentId = `PAY-${nextNumber.toString().padStart(4, '0')}`;
+
+    // Calculate new due amount
+    const newPaidAmount = Number(invoice.paidAmount) + amount;
+    const newDueAmount = Number(invoice.netAmount) - newPaidAmount;
+
+    // Create payment
+    const payment = await this.prisma.payment.create({
+      data: {
+        paymentId,
+        invoiceId,
+        amount,
+        paymentMethod: method as any,
+        receivedById: userId,
+      },
+    });
+
+    // Update invoice
+    await this.prisma.invoice.update({
+      where: { id: invoiceId },
+      data: {
+        paidAmount: newPaidAmount,
+        dueAmount: newDueAmount,
+        status:
+          newDueAmount === 0
+            ? InvoiceStatus.PAID
+            : InvoiceStatus.PARTIAL,
+      },
+    });
+
+    return payment;
+  }
+
+  async getDues(page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const [invoices, total] = await Promise.all([
+      this.prisma.invoice.findMany({
+        where: {
+          dueAmount: { gt: 0 },
+        },
+        include: {
+          patient: true,
+        },
+        orderBy: { invoiceDate: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.invoice.count({
+        where: {
+          dueAmount: { gt: 0 },
+        },
+      }),
+    ]);
+
+    return {
+      data: invoices,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+}
+
+// ============= FRONTEND: API CLIENT =============
+
+// src/lib/api.ts
+import axios from 'axios';
+import toast from 'react-hot-toast';
+
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Request interceptor
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+      toast.error('Session expired. Please login again.');
+    } else if (error.response?.status === 403) {
+      toast.error('You do not have permission to perform this action');
+    } else if (error.response?.data?.message) {
+      toast.error(error.response.data.message);
+    } else {
+      toast.error('An error occurred. Please try again.');
+    }
+    return Promise.reject(error);
+  }
+);
+
+// ============= FRONTEND: AUTH HOOKS =============
+
+// src/features/auth/api/useAuth.ts
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+interface User {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
+export const useAuth = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const loginMutation = useMutation({
+    mutationFn: async (credentials: LoginCredentials) => {
+      const { data } = await api.post('/api/v1/auth/login', credentials);
+      return data;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.access_token);
+      queryClient.setQueryData(['user'], data.user);
+      toast.success('Login successful!');
+      navigate('/dashboard');
+    },
+    onError: () => {
+      toast.error('Invalid username or password');
+    },
+  });
+
+  const { data: user, isLoading } = useQuery<User>({
+    queryKey: ['user'],
+    queryFn: async () => {
+      const { data } = await api.post('/api/v1/auth/me');
+      return data;
+    },
+    enabled: !!localStorage.getItem('token'),
+    retry: false,
+  });
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    queryClient.clear();
+    navigate('/login');
+    toast.success('Logged out successfully');
+  };
+
+  return {
+    login: loginMutation.mutate,
+    isLoggingIn: loginMutation.isPending,
+    user,
+    isLoadingUser: isLoading,
+    logout,
+  };
+};
+
+// ============= FRONTEND: PATIENT HOOKS =============
+
+// src/features/patients/api/usePatients.ts
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api';
+import toast from 'react-hot-toast';
+
+export const usePatients = (page: number = 1, limit: number = 10) => {
+  const queryClient = useQueryClient();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['patients', page, limit],
+    queryFn: async () => {
+      const { data } = await api.get(`/api/v1/patients?page=${page}&limit=${limit}`);
+      return data;
+    },
+  });
+
+  const createPatient = useMutation({
+    mutationFn: async (patientData: any) => {
+      const { data } = await api.post('/api/v1/patients', patientData);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['patients'] });
+      toast.success('Patient created successfully!');
+    },
+  });
+
+  const searchPatients = useMutation({
+    mutationFn: async (query: string) => {
+      const { data } = await api.get(`/api/v1/patients/search?q=${query}`);
+      return data;
+    },
+  });
+
+  return {
+    patients: data?.data || [],
+    meta: data?.meta,
+    isLoading,
+    createPatient: createPatient.mutate,
+    isCreating: createPatient.isPending,
+    searchPatients: searchPatients.mutate,
+    searchResults: searchPatients.data,
+  };
+};
+
+// ============= FRONTEND: PATIENT FORM COMPONENT =============
+
+// src/features/patients/components/PatientForm.tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Button } from '@/components/common/Button';
+import { Input } from '@/components/common/Input';
+import { Select } from '@/components/common/Select';
+
+const patientSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  age: z.number().min(1).max(150),
+  gender: z.enum(['MALE', 'FEMALE', 'OTHER']),
+  phone: z.string().min(11, 'Valid phone number required'),
+  email: z.string().email().optional().or(z.literal('')),
+  address: z.string().min(1, 'Address is required'),
+  bloodGroup: z.string().optional(),
+  emergencyContact: z.string().optional(),
+});
+
+type PatientFormData = z.infer<typeof patientSchema>;
+
+interface PatientFormProps {
+  onSubmit: (data: PatientFormData) => void;
+  isLoading?: boolean;
+}
+
+export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PatientFormData>({
+    resolver: zodResolver(patientSchema),
+  });
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input
+          label="Full Name"
+          {...register('name')}
+          error={errors.name?.message}
+        />
+        
+        <Input
+          label="Age"
+          type="number"
+          {...register('age', { valueAsNumber: true })}
+          error={errors.age?.message}
+        />
+
+        <Select
+          label="Gender"
+          {...register('gender')}
+          error={errors.gender?.message}
+        >
+          <option value="">Select Gender</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+          <option value="OTHER">Other</option>
+        </Select>
+
+        <Input
+          label="Phone"
+          {...register('phone')}
+          error={errors.phone?.message}
+        />
+
+        <Input
+          label="Email (Optional)"
+          type="email"
+          {...register('email')}
+          error={errors.email?.message}
+        />
+
+        <Input
+          label="Blood Group (Optional)"
+          {...register('bloodGroup')}
+        />
+      </div>
+
+      <Input
+        label="Address"
+        {...register('address')}
+        error={errors.address?.message}
+      />
+
+      <Input
+        label="Emergency Contact (Optional)"
+        {...register('emergencyContact')}
+      />
+
+      <div className="flex justify-end">
+        <Button type="submit" isLoading={isLoading}>
+          Create Patient
+        </Button>
+      </div>
+    </form>
+  );
+};
+
+// ============= FRONTEND: INVOICE COMPONENT =============
+
+// src/features/billing/components/InvoicePrint.tsx
+import React from 'react';
+import { format } from 'date-fns';
+
+interface InvoicePrintProps {
+  invoice: any;
+}
+
+export const InvoicePrint = React.forwardRef<HTMLDivElement, InvoicePrintProps>(
+  ({ invoice }, ref) => {
+    return (
+      <div ref={ref} className="p-8 bg-white">
+        <div className="border-b-2 border-gray-800 pb-4 mb-4">
+          <h1 className="text-2xl font-bold">Dr. Haiat General Hospital</h1>
+          <p className="text-sm text-gray-600">
+            Address, Phone, Email
+          </p>
+        </div>
+
+        <div className="flex justify-between mb-6">
+          <div>
+            <h2 className="font-semibold">Invoice To:</h2>
+            <p>{invoice.patient.name}</p>
+            <p>Patient ID: {invoice.patient.patientId}</p>
+            <p>Phone: {invoice.patient.phone}</p>
+          </div>
+          <div className="text-right">
+            <p className="font-semibold">Invoice #: {invoice.invoiceId}</p>
+            <p>Date: {format(new Date(invoice.invoiceDate), 'dd/MM/yyyy')}</p>
+            <p>Type: {invoice.invoiceType}</p>
+          </div>
+        </div>
+
+        <table className="w-full mb-6">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-2 text-left">Description</th>
+              <th className="p-2 text-right">Qty</th>
+              <th className="p-2 text-right">Unit Price</th>
+              <th className="p-2 text-right">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {invoice.items.map((item: any) => (
+              <tr key={item.id} className="border-b">
+                <td className="p-2">{item.description}</td>
+                <td className="p-2 text-right">{item.quantity}</td>
+                <td className="p-2 text-right">৳{item.unitPrice}</td>
+                <td className="p-2 text-right">৳{item.totalPrice}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="flex justify-end mb-6">
+          <div className="w-64">
+            <div className="flex justify-between py-2">
+              <span>Subtotal:</span>
+              <span>৳{invoice.totalAmount}</span>
+            </div>
+            <div className="flex justify-between py-2">
+              <span>Discount:</span>
+              <span>৳{invoice.discount}</span>
+            </div>
+            <div className="flex justify-between py-2 font-bold border-t">
+              <span>Total:</span>
+              <span>৳{invoice.netAmount}</span>
+            </div>
+            <div className="flex justify-between py-2">
+              <span>Paid:</span>
+              <span>৳{invoice.paidAmount}</span>
+            </div>
+            <div className="flex justify-between py-2 font-bold text-red-600">
+              <span>Due:</span>
+              <span>৳{invoice.dueAmount}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-4 border-t">
+          <p className="text-sm">Issued by: {invoice.createdBy.name} ({invoice.createdBy.role})</p>
+          <p className="text-sm">Signature: _____________________</p>
+        </div>
+      </div>
+    );
+  }
+);
+
+================================================================================
+ROLE-BASED ACCESS CONTROL (RBAC) MATRIX
+================================================================================
+
+Module/Feature              | Administrator | Chairman | Manager | Receptionist
+---------------------------|---------------|----------|---------|-------------
+Dashboard                  | ✓             | ✓        | ✓       | ✓
+Patient Management         | ✓             | ✓        | ✓       | ✓
+  - Add Patient            | ✓             | ✓        | ✓       | ✓
+  - Edit Patient           | ✓             | ✓        | ✓       | ✓
+  - Delete Patient         | ✓             | ✓        | ✗       | ✗
+OPD Management             | ✓             | ✓        | ✓       | ✓
+IPD Management             | ✓             | ✓        | ✓       | ✓
+Billing & Accounts         | ✓             | ✓        | ✓       | ✓
+  - Create Invoice         | ✓             | ✓        | ✓       | ✓
+  - Receive Payment        | ✓             | ✓        | ✓       | ✓
+  - Refund                 | ✓             | ✓        | ✓       | ✗
+Laboratory                 | ✓             | ✓        | ✓       | ✓
+Radiology/USG              | ✓             | ✓        | ✓       | ✓
+Operation Theatre          | ✓             | ✓        | ✓       | View Only
+E-Prescription             | ✓             | ✓        | View Only| View Only
+Inventory Management       | ✓             | ✓        | ✓       | View Only
+  - Add Medicine           | ✓             | ✓        | ✓       | ✗
+  - Stock Adjustment       | ✓             | ✓        | ✓       | ✗
+Staff Management           | ✓             | ✓        | ✓       | ✗
+Doctor Management          | ✓             | ✓        | ✓       | View Only
+HR & Payroll               | ✓             | ✓        | ✓       | ✗
+  - Attendance             | ✓             | ✓        | ✓       | ✗
+  - Salary Processing      | ✓             | ✓        | ✓       | ✗
+Reports                    | ✓             | ✓        | ✓       | Limited
+  - Financial Reports      | ✓             | ✓        | ✓       | ✗
+  - Patient Reports        | ✓             | ✓        | ✓       | ✓
+Settings                   | ✓             | ✓        | ✗       | ✗
+  - System Settings        | ✓             | ✓        | ✗       | ✗
+  - User Management        | ✓             | ✓        | ✗       | ✗
+  - Role Management        | ✓             | ✓        | ✗       | ✗
+Activity Logs              | ✓             | ✗        | ✗       | ✗
+
+================================================================================
+API ENDPOINTS
+================================================================================
+
+// Authentication
+POST   /api/v1/auth/login
+POST   /api/v1/auth/logout
+POST   /api/v1/auth/me
+POST   /api/v1/auth/change-password
+
+// Patients
+GET    /api/v1/patients
+POST   /api/v1/patients
+GET    /api/v1/patients/:id
+PATCH  /api/v1/patients/:id
+DELETE /api/v1/patients/:id
+GET    /api/v1/patients/search?q=query
+
+// OPD
+GET    /api/v1/opd
+POST   /api/v1/opd
+GET    /api/v1/opd/:id
+PATCH  /api/v1/opd/:id
+
+// IPD
+GET    /api/v1/ipd/admissions
+POST   /api/v1/ipd/admit
+PATCH  /api/v1/ipd/discharge/:id
+PATCH  /api/v1/ipd/transfer/:id
+GET    /api/v1/ipd/beds
+PATCH  /api/v1/ipd/beds/:id/status
+
+// Billing
+GET    /api/v1/billing/invoices
+POST   /api/v1/billing/invoices
+GET    /api/v1/billing/invoices/:id
+POST   /api/v1/billing/payments
+GET    /api/v1/billing/dues
+
+// Laboratory
+GET    /api/v1/lab/tests
+POST   /api/v1/lab/tests
+GET    /api/v1/lab/tests/:id
+PATCH  /api/v1/lab/tests/:id/result
+GET    /api/v1/lab/categories
+
+// Radiology
+GET    /api/v1/radiology/tests
+POST   /api/v1/radiology/tests
+GET    /api/v1/radiology/tests/:id
+PATCH  /api/v1/radiology/tests/:id/report
+
+// Operation Theatre
+GET    /api/v1/ot/bookings
+POST   /api/v1/ot/bookings
+GET    /api/v1/ot/bookings/:id
+PATCH  /api/v1/ot/bookings/:id
+
+// Prescriptions
+GET    /api/v1/prescriptions
+POST   /api/v1/prescriptions
+GET    /api/v1/prescriptions/:id
+GET    /api/v1/prescriptions/patient/:patientId
+
+// Inventory
+GET    /api/v1/inventory/medicines
+POST   /api/v1/inventory/medicines
+GET    /api/v1/inventory/medicines/:id
+PATCH  /api/v1/inventory/medicines/:id
+GET    /api/v1/inventory/stock
+POST   /api/v1/inventory/stock/adjust
+GET    /api/v1/inventory/low-stock
+
+// Staff
+GET    /api/v1/staff
+POST   /api/v1/staff
+GET    /api/v1/staff/:id
+PATCH  /api/v1/staff/:id
+
+// Doctors
+GET    /api/v1/doctors
+POST   /api/v1/doctors
+GET    /api/v1/doctors/:id
+PATCH  /api/v1/doctors/:id
+GET    /api/v1/doctors/:id/schedule
+POST   /api/v1/doctors/:id/schedule
+
+// HR & Payroll
+GET    /api/v1/hr/attendance
+POST   /api/v1/hr/attendance
+GET    /api/v1/hr/salary
+POST   /api/v1/hr/salary/process
+GET    /api/v1/hr/leaves
+POST   /api/v1/hr/leaves
+PATCH  /api/v1/hr/leaves/:id/approve
+
+// Reports
+GET    /api/v1/reports/daily
+GET    /api/v1/reports/monthly
+GET    /api/v1/reports/custom
+
+// Activity Logs
+GET    /api/v1/activity-logs
+
+================================================================================
+ENVIRONMENT VARIABLES
+================================================================================
+
+# Backend (.env)
+DATABASE_URL="postgresql://user:password@localhost:5432/drhaiat_hms"
+REDIS_URL="redis://localhost:6379"
+JWT_SECRET="your-secret-key-here"
+JWT_EXPIRATION="7d"
+PORT=3000
+
+# SMS Gateway
+SMS_API_KEY="your-sms-api-key"
+SMS_SENDER_ID="DrHaiatGH"
+
+# Email
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT=587
+SMTP_USER="your-email@gmail.com"
+SMTP_PASS="your-app-password"
+
+# Frontend (.env)
+VITE_API_URL="http://localhost:3000"
+
+================================================================================
+DEPLOYMENT CHECKLIST
+================================================================================
+
+1. Domain & SSL Setup
+   □ Register drhaiatgh.com
+   □ Point to server IP
+   □ Install SSL certificate (Let's Encrypt)
+   □ Configure subdomains (console.drhaiatgh.com, api.drhaiatgh.com)
+
+2. Server Setup
+   □ Install Node.js 20 LTS
+   □ Install PostgreSQL 15
+   □ Install Redis 7
+   □ Install Nginx
+   □ Install PM2
+
+3. Database Setup
+   □ Create PostgreSQL database
+   □ Run migrations: npx prisma migrate deploy
+   □ Run seeders: npx prisma db seed
+
+4. Backend Deployment
+   □ Clone repository
+   □ Install dependencies: npm install
+   □ Build: npm run build
+   □ Set up environment variables
+   □ Start with PM2: pm2 start dist/main.js
+
+5. Frontend Deployment
+   □ Build: npm run build
+   □ Copy dist folder to web server
+
+6. Nginx Configuration
+   □ Configure reverse proxy for API
+   □ Configure static file serving for frontend
+   □ Enable gzip compression
+
+7. Security
+   □ Configure firewall
+   □ Set up database backups
+   □ Configure CORS properly
+   □ Enable rate limiting
+
+8. Testing
+   □ Test all API endpoints
+   □ Test user roles and permissions
+   □ Test invoice generation and printing
+   □ Test SMS notifications
+
+================================================================================
+END OF DOCUMENT
+================================================================================
+
