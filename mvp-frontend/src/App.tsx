@@ -6,6 +6,7 @@ import DashboardPage from './features/dashboard/DashboardPage';
 import PatientsPage from './features/patients/PatientsPage';
 import PatientProfilePage from './features/patients/PatientProfilePage';
 import OPDPage from './features/opd/OPDPage';
+import BillingPage from './features/billing/BillingPage';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           <Route path="patients" element={<PatientsPage />} />
           <Route path="patients/:id" element={<PatientProfilePage />} />
           <Route path="opd" element={<OPDPage />} />
-          <Route path="billing" element={<div className="text-center py-12 text-gray-500">Billing page - Coming in Day 4</div>} />
+          <Route path="billing" element={<BillingPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
