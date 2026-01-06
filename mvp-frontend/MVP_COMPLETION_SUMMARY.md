@@ -107,6 +107,11 @@ A fully functional **frontend-only Hospital Management System** with:
 - **OPD Visits:** 8 (various gynecological consultations)
 - **Invoices:** 6 (mix of paid, partial, unpaid)
 
+**Updated (Day 5.5):**
+- **Patients:** 15 total (12 female gynecology patients + 3 male general patients)
+- **OPD Visits:** 11 total (8 gynecology + 3 general medicine)
+- **Invoices:** 8 total (gynecology services + diagnostic tests + general consultations)
+
 ### Git History
 - **Branch:** mvp-demo
 - **Commits:** 7 major commits
@@ -209,6 +214,8 @@ A fully functional **frontend-only Hospital Management System** with:
    - Audit logging
 
 3. **Enhanced Features**
+   - **Department/Specialty management** (Gynecology, General Medicine, Pediatrics, etc.)
+   - **Doctor specialty assignment** and routing
    - Appointment scheduling
    - Lab test integration
    - Inventory management

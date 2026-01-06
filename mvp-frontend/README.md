@@ -131,7 +131,8 @@ Password: admin123
 - **Currency:** BDT (Bangladeshi Taka) - ৳
 - **Phone Format:** +880 1XXX-XXXXXX
 - **Sample Data:** Bangladeshi names and Dhaka addresses
-- **Hospital Type:** Gynecology-focused general hospital
+- **Hospital Type:** General hospital with gynecology specialization (serves all patients)
+- **Services:** Gynecology consultations, general medicine, diagnostic tests, and more
 
 ### Data Persistence
 - All data stored in **localStorage**
@@ -202,15 +203,18 @@ mvp-frontend/
 ## 🌟 Sample Data
 
 The system includes comprehensive sample data:
-- **12 Patients** - Female patients with Bangladeshi names and addresses
-- **8 OPD Visits** - Various gynecological consultations with different statuses
-- **6 Invoices** - Mix of paid, partial, and unpaid invoices
+- **15 Patients** - Mix of male and female patients with Bangladeshi names
+- **11 OPD Visits** - Gynecological consultations + general medical consultations
+- **8 Invoices** - Mix of paid, partial, and unpaid invoices
 
 ### Sample Patients Include:
-- Fatima Rahman (P-001)
-- Ayesha Begum (P-002)
-- Nusrat Jahan (P-003)
-- And 9 more...
+- **Gynecology Patients:** Fatima Rahman (P-001), Ayesha Begum (P-002), Nusrat Jahan (P-003), and 9 more
+- **General Patients:** Mohammad Karim (P-013), Rafiq Ahmed (P-014), Aminul Haque (P-015)
+
+### Sample Services:
+- **Gynecology:** Antenatal care, PCOS treatment, menstrual issues, routine checkups
+- **General Medicine:** Fever treatment, health checkups, chronic conditions
+- **Diagnostic Tests:** Blood tests (CBC, lipid profile, blood sugar), ultrasounds, urine tests
 
 ## 🚧 MVP Limitations
 
